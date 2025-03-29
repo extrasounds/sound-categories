@@ -22,8 +22,8 @@ public class SoundGroupOptionsScreen extends AbstractSoundListedScreen {
     }
 
     @Override
-    protected void initTabNavigation() {
-        super.initTabNavigation();
+    protected void refreshWidgetPositions() {
+        super.refreshWidgetPositions();
         this.list.setDimensionsImpl(this.width, this.layout.getContentHeight());
     }
 
