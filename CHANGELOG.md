@@ -9,6 +9,20 @@
 
 <small>_Caught bugs and known issues are written._</small>
 
+## [3.0.0+1.21.8-build.2] - 2025-07-24
+### ✨ Added
+
+* Supports 1.21.6 - 1.21.8.
+
+### 👷 Technical
+
+* Dependency updates:
+  - yarn mappings 1.21.8+build.1
+  - fabric api 0.129.0+1.21.8
+  - fabric loader 0.16.14
+  - fabric loom 1.11
+  - Gradle 8.14.3
+
 ## [2.0.0+1.21.5-build.1] - 2025-04-11
 ### ✨ Added
 
