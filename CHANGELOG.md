@@ -9,7 +9,12 @@
 
 <small>_Caught bugs and known issues are written._</small>
 
-## [3.0.0+1.21.8-build.2] - 2025-07-24
+## [2.0.0+1.21.8-build.5] - 2025-08-17
+### 🗘 Updated
+
+* Show vanilla’s Music Frequency button, Music Toast button for MC 1.21.6 or later.
+
+## [2.0.0+1.21.8-build.2] - 2025-07-24
 ### ✨ Added
 
 * Supports 1.21.6 - 1.21.8.
