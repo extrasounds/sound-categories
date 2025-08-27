@@ -20,7 +20,6 @@ if (verStr.contains('-')) {
 version = "${project.mod_version}+${verStr}~lonefelidae16${buildNum}"
 
 allprojects {
-    version = "${project.mod_version}+${versionDetails().gitHash[0..7]}~lonefelidae16"
     group = project.maven_group
 
     repositories {

@@ -4,6 +4,8 @@ plugins {
 
 var soundCategories = project.parent.parent
 
+version = "${soundCategories.mod_version}+${versionDetails().gitHash[0..7]}~lonefelidae16"
+
 base {
     archivesName = "${soundCategories.archives_base_name}-interchanger+mc${project.minecraft_version}"
 }
