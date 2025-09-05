@@ -1,7 +1,5 @@
 package dev.stashy.soundcategories.shared.mixin;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import dev.stashy.soundcategories.CategoryLoader;
 import dev.stashy.soundcategories.shared.SoundCategories;
 import net.minecraft.sound.SoundCategory;
@@ -44,9 +42,9 @@ public abstract class SoundCategoryMixin {
      * When the name already exists, the reference is created to match it.
      *
      * @param field    The referer.
-     * @param instance The instance of an Object that has <code>field</code>.
+     * @param instance The instance of an Object that has {@code field}.
      * @param name     The name trying to register.
-     * @throws IllegalAccessException Thrown when cannot access to the <code>field</code>.
+     * @throws IllegalAccessException Thrown when cannot access to the {@code field}.
      */
     @Unique
     private static void soundcategories$tryMakeVariant(Field field, Object instance, String name) throws IllegalAccessException {
@@ -58,8 +56,9 @@ public abstract class SoundCategoryMixin {
         if (REGISTERED_VARIANTS.containsKey(displayName)) {
             if (!SUPPRESSED_NAMES.contains(displayName)) {
                 SoundCategories.LOGGER.error(
-                        "Duplicate enum name was found: '%s'.".formatted(displayName),
-                        new RuntimeException("%s is already registered".formatted(displayName)));
+                        "Duplicate enum name was found: '{}'.", displayName,
+                        new RuntimeException("%s is already registered".formatted(displayName))
+                );
                 SUPPRESSED_NAMES.add(displayName);
             }
             newCategory = REGISTERED_VARIANTS.get(displayName);
@@ -82,8 +81,8 @@ public abstract class SoundCategoryMixin {
             target = "Lnet/minecraft/sound/SoundCategory;field_15255:[Lnet/minecraft/sound/SoundCategory;",
             shift = At.Shift.AFTER))
     private static void soundcategories$addCustomVariants(CallbackInfo ci) {
-        REGISTERED_VARIANTS = Maps.newHashMap();
-        SUPPRESSED_NAMES = Sets.newHashSet();
+        REGISTERED_VARIANTS = new HashMap<>();
+        SUPPRESSED_NAMES = new HashSet<>();
         EDITING_CATS = new ArrayList<>(Arrays.asList(field_15255));
         for (SoundCategory category : EDITING_CATS) {
             REGISTERED_VARIANTS.put(category.getName(), category);

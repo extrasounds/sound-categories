@@ -1,7 +1,5 @@
 package dev.stashy.soundcategories.shared;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
 import dev.stashy.soundcategories.CategoryLoader;
 import dev.stashy.soundcategories.shared.text.VersionedText;
 import me.lonefelidae16.groominglib.api.PrefixableMessageFactory;
@@ -29,29 +27,29 @@ public final class SoundCategories {
     public static final Map<String, Method> CACHED_METHOD_MAP = new HashMap<>();
     public static final Map<String, Constructor<?>> CACHED_INIT_MAP = new HashMap<>();
     private static final String OPTION_PREFIX_SOUND_CAT = "soundCategory.";
-    private static final Set<String> SUPPRESSED_NAMES = Sets.newHashSet();
+    private static final Set<String> SUPPRESSED_NAMES = new HashSet<>();
 
     /**
      * The Map of {@link SoundCategory} including to which group the category belongs.<br>
-     * <code>Unique category -> Group category</code>
+     * {@code Unique category} -> {@code Group category}
      */
-    public static final Map<SoundCategory, SoundCategory> PARENTS = new HashMap<>();
+    public static final Map<SoundCategory, SoundCategory> PARENTS = new EnumMap<>(SoundCategory.class);
     /**
      * The Map of {@link String} -> {@link SoundCategory} showing which a master category the class has.<br>
-     * <code>Class name -> Master category</code>
+     * {@code Class name} -> {@code Master category}
      */
-    public static final Map<String, SoundCategory> MASTERS = Maps.newHashMap();
+    public static final Map<String, SoundCategory> MASTERS = new HashMap<>();
     public static String[] MASTER_CLASSES;
-    public static final Map<SoundCategory, Float> DEFAULT_LEVELS = new HashMap<>();
-    public static final Map<SoundCategory, Boolean> TOGGLEABLE_CATS = Maps.newHashMap();
-    public static final Map<SoundCategory, Text> TOOLTIPS = Maps.newHashMap();
+    public static final Map<SoundCategory, Float> DEFAULT_LEVELS = new EnumMap<>(SoundCategory.class);
+    public static final Map<SoundCategory, Boolean> TOGGLEABLE_CATS = new EnumMap<>(SoundCategory.class);
+    public static final Map<SoundCategory, Text> TOOLTIPS = new EnumMap<>(SoundCategory.class);
 
     public static String getOptionsTranslationKey(SoundCategory target) {
         return OPTION_PREFIX_SOUND_CAT + target.getName();
     }
 
     /**
-     * Retrieves all {@link EntrypointContainer} from the key <code>"sound-categories"</code> and their annotation fields.
+     * Retrieves all {@link EntrypointContainer} from the key {@code "sound-categories"} and their annotation fields.
      */
     public static Map<EntrypointContainer<CategoryLoader>, List<Field>> getCategories() {
         return FabricLoader.getInstance().getEntrypointContainers("sound-categories", CategoryLoader.class).stream()
@@ -74,8 +72,10 @@ public final class SoundCategories {
     }
 
     public static void setup() {
-        //required so that the new categories are actually created, not actually used
-        SoundCategory.MASTER.getClass().getClassLoader();
+        var soundCategoryClass = SoundCategory.class;
+        if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
+            SoundCategories.LOGGER.info("Loaded SoundCategory: {}", EnumSet.allOf(soundCategoryClass).stream().map(Enum::toString).collect(Collectors.joining(", ")));
+        }
 
         try {
             final Map<EntrypointContainer<CategoryLoader>, List<Field>> allAnnotations = getCategories();
