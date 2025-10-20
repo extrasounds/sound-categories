@@ -22,4 +22,6 @@ public abstract class VersionedSimpleOptionProvider {
     }
 
     public abstract ClickableWidget createWidget(Object instance, GameOptions options, int x, int y, int width);
+
+    public abstract Object ofBoolean(String key);
 }

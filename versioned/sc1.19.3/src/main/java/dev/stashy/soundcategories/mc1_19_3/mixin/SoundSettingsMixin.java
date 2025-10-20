@@ -1,22 +1,44 @@
 package dev.stashy.soundcategories.mc1_19_3.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundOptionsScreen;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.stashy.soundcategories.shared.SoundCategories;
+import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreen;
+import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.option.OptionsScreen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
+import net.minecraft.client.gui.screen.option.SoundOptionsScreen;
+import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.option.GameOptions;
-import org.spongepowered.asm.mixin.Final;
+import net.minecraft.client.option.SimpleOption;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(OptionsScreen.class)
-public class SoundSettingsMixin {
+import java.util.Arrays;
+
+@Mixin(SoundOptionsScreen.class)
+public abstract class SoundSettingsMixin extends GameOptionsScreen {
     @Shadow
-    private @Final GameOptions settings;
+    private ButtonListWidget optionButtons;
 
-    @ModifyReturnValue(method = "method_19829", at = @At("RETURN"))
-    private Screen soundcategories$redirectToCustomScreen(Screen original) {
-        return VersionedSoundOptionsScreen.newInstance(OptionsScreen.class.cast(this), settings);
+    public SoundSettingsMixin(Screen parent, GameOptions gameOptions, Text title) {
+        super(parent, gameOptions, title);
+    }
+
+    @WrapOperation(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/option/SoundOptionsScreen;getVolumeOptions()[Lnet/minecraft/client/option/SimpleOption;"))
+    private SimpleOption<?>[] soundcategories$filterVanillaSoundOptions(SoundOptionsScreen instance, Operation<SimpleOption<?>[]> original) {
+        return Arrays.stream(SoundCategories.filterVanillaCategory()).map(this.client.options::getSoundVolumeOption).toArray(SimpleOption[]::new);
+    }
+
+    @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/option/SoundOptionsScreen;addSelectableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
+    private void soundcategories$addCustomSoundWidgets(CallbackInfo ci) {
+        for (var master : SoundCategories.filterCustomizedMasterCategory()) {
+            ButtonListWidget.ButtonEntry widget = VersionedElementListWrapper.VersionedSoundEntry.createGroup(this.gameOptions, this.client.options.getSoundVolumeOption(master), this.width, button -> this.client.setScreen(VersionedSoundGroupOptionsScreen.newInstance(this, this.gameOptions, master)));
+            this.optionButtons.addEntry(widget);
+        }
     }
 }

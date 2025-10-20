@@ -7,15 +7,16 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
+import net.minecraft.client.gui.widget.OptionListWidget;
 import net.minecraft.client.option.SimpleOption;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
-public class SoundList extends ElementListWidget<VersionedElementListWrapper.VersionedSoundEntry> implements VersionedElementListWrapper {
+public class SoundList extends ElementListWidget<OptionListWidget.WidgetEntry> implements VersionedElementListWrapper {
     public SoundList(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
         super(minecraftClient, i, j, k, l, m);
         this.centerListVertically = false;
@@ -39,9 +40,9 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
     public int addSingleOptionEntry(Object option, boolean editable) {
         var entry = VersionedSoundEntry.create(this.client.options, this.width, option);
         if (!editable) {
-            entry.widgets.forEach(widget -> widget.active = false);
+            entry.getWidgets().forEach(widget -> widget.active = false);
         }
-        return this.addEntry(entry);
+        return this.addEntry((OptionListWidget.WidgetEntry) entry);
     }
 
     @Override
@@ -80,6 +81,11 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
         return this.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount);
     }
 
+    @Override
+    public void addDrawable(Object option, ClickableWidget button) {
+        this.addEntry(VersionedSoundEntry.newInstance(Map.of(option, button)));
+    }
+
     private SimpleOption<?> createCustomizedOption(SoundCategory category) {
         final SimpleOption<Double> option = this.client.options.getSoundVolumeOption(category);
         if (SoundCategories.TOGGLEABLE_CATS.getOrDefault(category, false)) {
@@ -91,10 +97,5 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
             );
         }
         return option;
-    }
-
-    @Override
-    public void addDrawable(ClickableWidget button) {
-        this.addEntry(VersionedSoundEntry.newInstance(List.of(button)));
     }
 }

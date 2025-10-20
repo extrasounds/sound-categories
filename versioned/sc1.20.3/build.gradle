@@ -24,4 +24,10 @@ tasks.withType(ProcessResources).configureEach {
     project.ext['moduleId'] = 'mc1_20_3'
     project.ext['moduleName'] = '1.20.3-4 module'
     project.ext['mod_license'] = soundCategories.mod_license
+    project.ext['moduleMixins'] = [ 'soundcategories.mixins.mc1_20_3.json' ]
+    project.ext['moduleAccessWidener'] = 'soundcategories.accesswidener'
+}
+
+loom {
+    accessWidenerPath = file("src/main/resources/soundcategories.accesswidener")
 }

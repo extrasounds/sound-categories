@@ -111,7 +111,6 @@ dependencies {
 
     compileOnly include(project(path: 'shared'))
     // 1.21 family
-    compileOnly include(project(path: 'versioned:sc1.21.6'))
     compileOnly include(project(path: 'versioned:sc1.21'))
     // 1.20 family
     compileOnly include(project(path: 'versioned:sc1.20.5'))

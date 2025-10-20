@@ -1,14 +1,14 @@
 package dev.stashy.soundcategories.mc1_20.gui.screen;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.gui.screen.AbstractSoundListedScreen;
+import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreen;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 
-public class SoundGroupOptionsScreen extends AbstractSoundListedScreen {
+public class SoundGroupOptionsScreen extends VersionedSoundGroupOptionsScreen {
     private final SoundCategory parentCategory;
 
     public SoundGroupOptionsScreen(Screen parent, GameOptions gameOptions, SoundCategory category) {

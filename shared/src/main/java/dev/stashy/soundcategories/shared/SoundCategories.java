@@ -39,7 +39,7 @@ public final class SoundCategories {
      * {@code Class name} -> {@code Master category}
      */
     public static final Map<String, SoundCategory> MASTERS = new HashMap<>();
-    public static String[] MASTER_CLASSES;
+    public static final List<String> MASTER_CLASSES = new ArrayList<>();
     public static final Map<SoundCategory, Float> DEFAULT_LEVELS = new EnumMap<>(SoundCategory.class);
     public static final Map<SoundCategory, Boolean> TOGGLEABLE_CATS = new EnumMap<>(SoundCategory.class);
     public static final Map<SoundCategory, Text> TOOLTIPS = new EnumMap<>(SoundCategory.class);
@@ -116,8 +116,7 @@ public final class SoundCategories {
                 }
             }
 
-            MASTER_CLASSES = MASTERS.keySet().toArray(String[]::new);
-            Arrays.sort(MASTER_CLASSES);
+            MASTER_CLASSES.addAll(MASTERS.keySet().stream().sorted().toList());
 
             // Put all the customized SoundCategories.
             for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
@@ -163,5 +162,17 @@ public final class SoundCategories {
 
         // Cleanup.
         SUPPRESSED_NAMES.clear();
+    }
+
+    public static SoundCategory[] filterVanillaCategory() {
+        return Arrays.stream(SoundCategory.values()).filter(it -> {
+            return !SoundCategories.PARENTS.containsKey(it) &&
+                    !SoundCategories.PARENTS.containsValue(it) &&
+                    it != SoundCategory.MASTER;
+        }).toArray(SoundCategory[]::new);
+    }
+
+    public static SoundCategory[] filterCustomizedMasterCategory() {
+        return SoundCategories.MASTER_CLASSES.stream().map(SoundCategories.MASTERS::get).toArray(SoundCategory[]::new);
     }
 }

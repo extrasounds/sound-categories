@@ -10,6 +10,6 @@ public final class VersionedMixinPlugin extends AbstractVersionedMixinPlugin {
 
     @Override
     protected String laterVersion() {
-        return "1.19.2";
+        return "1.18.2";
     }
 }

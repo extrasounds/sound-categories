@@ -11,6 +11,6 @@ public class TexturedButtonWidgetImpl extends TexturedButtonWidget implements Ve
     }
 
     public static TexturedButtonWidgetImpl init(int x, int y, int width, int height, int u, int v, int hoveredVOffset, int textureWidth, int textureHeight, PressAction pressAction) {
-        return new TexturedButtonWidgetImpl(x, y, width, height, u, v, hoveredVOffset, new Identifier(SoundCategories.MOD_ID, "textures/gui/settings.png"), textureWidth, textureHeight, pressAction);
+        return new TexturedButtonWidgetImpl(x, y, width, height, u, v, hoveredVOffset, Identifier.tryParse(SoundCategories.MOD_ID + ":textures/gui/settings.png"), textureWidth, textureHeight, pressAction);
     }
 }

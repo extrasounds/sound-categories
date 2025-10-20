@@ -4,11 +4,11 @@ import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
-import java.util.List;
+import java.util.Map;
 
-public class SoundEntry extends VersionedElementListWrapper.VersionedSoundEntry {
-    public SoundEntry(List<? extends ClickableWidget> w) {
-        super(w);
+public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry {
+    public SoundEntry(Map<Object, ClickableWidget> widgets) {
+        super(widgets.values());
     }
 
     @Override

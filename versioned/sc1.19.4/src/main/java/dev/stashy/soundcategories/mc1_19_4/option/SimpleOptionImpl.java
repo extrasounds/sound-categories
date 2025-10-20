@@ -10,4 +10,10 @@ public class SimpleOptionImpl extends VersionedSimpleOptionProvider {
     public ClickableWidget createWidget(Object instance, GameOptions options, int x, int y, int width) {
         return ((SimpleOption<Double>) instance).createWidget(options, x, y, width);
     }
+
+    @Override
+    public Object ofBoolean(String key) {
+        return SimpleOption.ofBoolean(key, true, bool -> {
+        });
+    }
 }

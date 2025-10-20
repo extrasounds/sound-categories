@@ -16,10 +16,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
-public class SoundList extends ElementListWidget<VersionedElementListWrapper.VersionedSoundEntry> implements VersionedElementListWrapper {
+public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper {
     private static final EnumMap<SoundCategory, SimpleOption<Double>> VOLUME_OPTS = Util.make(new EnumMap<>(SoundCategory.class), map -> {
         for (var cat : SoundCategory.values()) {
             final SimpleOption.TooltipFactoryGetter<Double> getter;
@@ -60,9 +60,9 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
 
     @Override
     public int addSingleOptionEntry(Object option, boolean editable) {
-        var entry = VersionedSoundEntry.create(this.client.options, this.width, option);
+        DefaultedSoundEntry entry = VersionedSoundEntry.create(this.client.options, this.width, option);
         if (!editable) {
-            entry.widgets.forEach(widget -> widget.active = false);
+            entry.getWidgets().forEach(widget -> widget.active = false);
         }
         return this.addEntry(entry);
     }
@@ -103,6 +103,11 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
         return this.mouseScrolled(mouseX, mouseY, verticalAmount);
     }
 
+    @Override
+    public void addDrawable(Object option, ClickableWidget button) {
+        this.addEntry(VersionedSoundEntry.newInstance(Map.of(option, button)));
+    }
+
     private SimpleOption<?> createCustomizedOption(SoundCategory category) {
         final SimpleOption<Double> option = Objects.requireNonNull(VOLUME_OPTS.get(category));
         if (SoundCategories.TOGGLEABLE_CATS.getOrDefault(category, false)) {
@@ -113,10 +118,5 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
             );
         }
         return option;
-    }
-
-    @Override
-    public void addDrawable(ClickableWidget button) {
-        this.addEntry(new SoundEntry(List.of(button)));
     }
 }

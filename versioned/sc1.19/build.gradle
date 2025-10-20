@@ -24,6 +24,7 @@ tasks.withType(ProcessResources).configureEach {
     project.ext['moduleId'] = 'mc1_19'
     project.ext['moduleName'] = '1.19-.2 module'
     project.ext['mod_license'] = soundCategories.mod_license
+    project.ext['moduleMixins'] = [ 'soundcategories.mixins.mc1_19.json' ]
     project.ext['moduleAccessWidener'] = 'soundcategories.accesswidener'
 }
 

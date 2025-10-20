@@ -15,9 +15,9 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.Map;
 
-public class SoundList extends ElementListWidget<VersionedElementListWrapper.VersionedSoundEntry> implements VersionedElementListWrapper {
+public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper {
     public SoundList(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
         super(minecraftClient, i, j, k, l, m);
         this.centerListVertically = false;
@@ -39,9 +39,9 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
 
     @Override
     public int addSingleOptionEntry(Object option, boolean editable) {
-        var entry = VersionedSoundEntry.create(this.client.options, this.width, option);
+        DefaultedSoundEntry entry = VersionedSoundEntry.create(this.client.options, this.width, option);
         if (!editable) {
-            entry.widgets.forEach(widget -> widget.active = false);
+            entry.getWidgets().forEach(widget -> widget.active = false);
         }
         return this.addEntry(entry);
     }
@@ -83,6 +83,11 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
         return this.mouseScrolled(mouseX, mouseY, verticalAmount);
     }
 
+    @Override
+    public void addDrawable(Object option, ClickableWidget button) {
+        this.addEntry(VersionedSoundEntry.newInstance(Map.of(option, button)));
+    }
+
     private Option createCustomizedOption(SoundCategory category) {
         if (SoundCategories.TOGGLEABLE_CATS.getOrDefault(category, false)) {
             return CyclingOption.create(SoundCategories.getOptionsTranslationKey(category),
@@ -104,10 +109,5 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Ver
                         }
                     });
         }
-    }
-
-    @Override
-    public void addDrawable(ClickableWidget button) {
-        this.addEntry(new SoundEntry(List.of(button)));
     }
 }

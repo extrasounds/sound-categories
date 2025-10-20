@@ -4,19 +4,45 @@ import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedButtonWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import dev.stashy.soundcategories.shared.text.VersionedText;
+import me.lonefelidae16.groominglib.api.McVersionInterchange;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
+import java.util.Objects;
 
-public abstract class AbstractSoundListedScreen extends GameOptionsScreen {
+public abstract class VersionedSoundGroupOptionsScreen extends GameOptionsScreen {
+    private static final String METHOD_KEY_CTOR = VersionedSoundGroupOptionsScreen.class.getCanonicalName() + "#<init>";
+
     protected VersionedElementListWrapper list;
 
-    public AbstractSoundListedScreen(Screen parent, GameOptions gameOptions, Text title) {
+    static {
+        try {
+            Class<VersionedSoundGroupOptionsScreen> clazz = McVersionInterchange.getCompatibleClass(SoundCategories.BASE_PACKAGE, "gui.screen.SoundGroupOptionsScreen");
+            Constructor<VersionedSoundGroupOptionsScreen> constructor = clazz.getConstructor(Screen.class, GameOptions.class, SoundCategory.class);
+            SoundCategories.CACHED_INIT_MAP.put(METHOD_KEY_CTOR, Objects.requireNonNull(constructor));
+        } catch (Exception ex) {
+            SoundCategories.LOGGER.error("Failed to find 'SoundGroupOptionsScreen' class.", ex);
+        }
+    }
+
+    public VersionedSoundGroupOptionsScreen(Screen parent, GameOptions gameOptions, Text title) {
         super(parent, gameOptions, title);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static VersionedSoundGroupOptionsScreen newInstance(Screen parent, GameOptions settings, SoundCategory category) {
+        try {
+            Constructor<VersionedSoundGroupOptionsScreen> constructor = (Constructor<VersionedSoundGroupOptionsScreen>) SoundCategories.CACHED_INIT_MAP.get(METHOD_KEY_CTOR);
+            return constructor.newInstance(parent, settings, category);
+        } catch (Exception ex) {
+            SoundCategories.LOGGER.error("Cannot instantiate 'SoundGroupOptionsScreen'", ex);
+        }
+        return null;
     }
 
     protected void addDoneButton() {
