@@ -7,16 +7,16 @@ import net.minecraft.client.option.GameOptions;
 
 import java.util.Objects;
 
-public abstract class VersionedSimpleOptionProvider {
-    public static final VersionedSimpleOptionProvider INSTANCE;
+public abstract class VersionedOptionLikeProvider {
+    public static final VersionedOptionLikeProvider INSTANCE;
 
     static {
-        VersionedSimpleOptionProvider instance = null;
+        VersionedOptionLikeProvider instance = null;
         try {
-            Class<VersionedSimpleOptionProvider> clazz = McVersionInterchange.getCompatibleClass(SoundCategories.BASE_PACKAGE, "option.SimpleOptionImpl");
+            Class<VersionedOptionLikeProvider> clazz = McVersionInterchange.getCompatibleClass(SoundCategories.BASE_PACKAGE, "option.OptionLikeImpl");
             instance = clazz.getConstructor().newInstance();
         } catch (Exception ex) {
-            SoundCategories.LOGGER.error("Failed to init 'OptionImpl' class.", ex);
+            SoundCategories.LOGGER.error("Failed to init 'OptionLikeImpl' class.", ex);
         }
         INSTANCE = Objects.requireNonNull(instance);
     }

@@ -7,6 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,6 +44,7 @@ public final class SoundCategories {
     public static final Map<SoundCategory, Float> DEFAULT_LEVELS = new EnumMap<>(SoundCategory.class);
     public static final Map<SoundCategory, Boolean> TOGGLEABLE_CATS = new EnumMap<>(SoundCategory.class);
     public static final Map<SoundCategory, Text> TOOLTIPS = new EnumMap<>(SoundCategory.class);
+    public static final Map<SoundCategory, Identifier[]> PREVIEW_SOUNDS = new EnumMap<>(SoundCategory.class);
 
     public static String getOptionsTranslationKey(SoundCategory target) {
         return OPTION_PREFIX_SOUND_CAT + target.getName();
@@ -78,7 +80,7 @@ public final class SoundCategories {
         }
 
         try {
-            final Map<EntrypointContainer<CategoryLoader>, List<Field>> allAnnotations = getCategories();
+            final var allAnnotations = getCategories();
 
             // First fetch for the MASTER categories.
             for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
@@ -153,6 +155,14 @@ public final class SoundCategories {
 
                     if (!annotation.tooltip().isEmpty()) {
                         TOOLTIPS.put(category, VersionedText.INSTANCE.translatable(annotation.tooltip()));
+                    }
+
+                    if (annotation.preview().length > 0) {
+                        try {
+                            PREVIEW_SOUNDS.put(category, Objects.requireNonNull(Arrays.stream(annotation.preview()).map(Identifier::tryParse).toArray(Identifier[]::new)));
+                        } catch (Exception ex) {
+                            LOGGER.error("Parsing Identifier of preview sound failed: {}", String.join(", ", annotation.preview()), ex);
+                        }
                     }
                 }
             }

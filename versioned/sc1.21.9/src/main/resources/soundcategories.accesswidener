@@ -1,0 +1,4 @@
+accessWidener	v1	named
+accessible method net/minecraft/client/gui/widget/EntryListWidget addEntry (Lnet/minecraft/client/gui/widget/EntryListWidget$Entry;)I
+accessible class net/minecraft/client/gui/widget/OptionListWidget$WidgetEntry
+accessible method net/minecraft/client/gui/widget/OptionListWidget$WidgetEntry <init> (Ljava/util/List;Lnet/minecraft/client/gui/screen/Screen;)V

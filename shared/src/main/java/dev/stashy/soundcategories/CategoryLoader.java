@@ -11,20 +11,21 @@ import java.lang.annotation.Target;
 public interface CategoryLoader {
     /**
      * Registers a new {@link net.minecraft.sound.SoundCategory} and injects its reference to the field that has this annotation.<br>
-     * The field name will be prefixed your modId and <code>$</code>, like following:<br>
+     * The field name will be prefixed your modId and {@code $}, like following:<br>
      * <ul>
-     *     <li>Declared by <code>mod-id</code><br>
+     *     <li>Declared by {@code mod-id}
      *     <pre>class CustomCats implements CategoryLoader {<br>    @Register<br>    public static SoundCategory MASTER;<br>}</pre></li>
-     *     <li>Generated code at runtime<br>
+     *     <li>Generated code at runtime
      *     <pre>SoundCategory.MOD_ID$MASTER("mod_id$master");</pre></li>
      * </ul>
-     * In this case, the translation key will be <code>"soundCategory.mod_id$master"</code>. You can access this SoundCategory using <code>CustomCats.MASTER</code> directly.
+     * In this case, the translation key will be {@code "soundCategory.mod_id$master"}. You can access this SoundCategory using {@code CustomCats.MASTER} directly.
      *
      * @see Register#id
      * @see Register#master
      * @see Register#defaultLevel
      * @see Register#toggle
      * @see Register#tooltip
+     * @see Register#preview
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
@@ -56,5 +57,11 @@ public interface CategoryLoader {
          * This value will be passed to {@link net.minecraft.text.Text#translatable}.
          */
         String tooltip() default "";
+
+        /**
+         * Sets preview sound Identifier for MC 1.21.9 or later.<br>
+         * This value will be passed to {@link net.minecraft.util.Identifier#of(String)}.
+         */
+        String[] preview() default "";
     }
 }

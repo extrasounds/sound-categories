@@ -3,7 +3,7 @@ package dev.stashy.soundcategories.shared.gui.widget;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.option.VersionedSimpleOptionProvider;
+import dev.stashy.soundcategories.shared.option.VersionedOptionLikeProvider;
 import me.lonefelidae16.groominglib.api.McVersionInterchange;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -108,20 +108,20 @@ public interface VersionedElementListWrapper extends Drawable, Element, Selectab
         static <T extends VersionedSoundEntry> T create(GameOptions options, int width, Object option) {
             return VersionedSoundEntry.newInstance(
                     ImmutableMap.of(option, Objects.requireNonNull(
-                            VersionedSimpleOptionProvider.INSTANCE.createWidget(option, options, width / 2 - 155, 0, 310)
+                            VersionedOptionLikeProvider.INSTANCE.createWidget(option, options, width / 2 - 155, 0, 310)
                     ))
             );
         }
 
         static <T extends VersionedSoundEntry> T createDouble(GameOptions options, int width, Object first, @Nullable Object second) {
             Map<Object, ClickableWidget> widgets;
-            ClickableWidget firstWidget = VersionedSimpleOptionProvider.INSTANCE.createWidget(first, options, width / 2 - 155, 0, 150);
+            ClickableWidget firstWidget = VersionedOptionLikeProvider.INSTANCE.createWidget(first, options, width / 2 - 155, 0, 150);
             if (second == null) {
                 widgets = ImmutableMap.of(first, firstWidget);
             } else {
                 widgets = ImmutableMap.of(
                         first, firstWidget,
-                        second, VersionedSimpleOptionProvider.INSTANCE.createWidget(second, options, width / 2 + 5, 0, 150)
+                        second, VersionedOptionLikeProvider.INSTANCE.createWidget(second, options, width / 2 + 5, 0, 150)
                 );
             }
             return VersionedSoundEntry.newInstance(widgets);
@@ -129,8 +129,8 @@ public interface VersionedElementListWrapper extends Drawable, Element, Selectab
 
         static <T extends VersionedSoundEntry> T createGroup(GameOptions options, Object option, int width, ButtonWidget.PressAction pressAction) {
             Map<Object, ClickableWidget> widgets = ImmutableMap.of(
-                    option, Objects.requireNonNull(VersionedSimpleOptionProvider.INSTANCE.createWidget(option, options, width / 2 - 155, 0, 280)),
-                    VersionedSimpleOptionProvider.INSTANCE.ofBoolean(option.toString()), (TexturedButtonWidget) Objects.requireNonNull(
+                    option, Objects.requireNonNull(VersionedOptionLikeProvider.INSTANCE.createWidget(option, options, width / 2 - 155, 0, 280)),
+                    VersionedOptionLikeProvider.INSTANCE.ofBoolean(option.toString()), (TexturedButtonWidget) Objects.requireNonNull(
                             VersionedTexturedButtonWrapper.newInstance(width / 2 + 135, 0, 20, 20, 0, 0, 20,
                                     20, 40, pressAction)
                     ));
