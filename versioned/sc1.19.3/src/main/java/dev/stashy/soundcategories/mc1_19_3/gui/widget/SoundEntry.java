@@ -2,6 +2,7 @@ package dev.stashy.soundcategories.mc1_19_3.gui.widget;
 
 import com.google.common.collect.ImmutableList;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -23,14 +24,22 @@ public class SoundEntry extends ButtonListWidget.ButtonEntry implements Versione
         if (this.widgets.isEmpty()) {
             return;
         }
+        final var client = MinecraftClient.getInstance();
+        if (client == null) {
+            return;
+        }
+        final var screen = client.currentScreen;
+        if (screen == null) {
+            return;
+        }
 
         int i = 0;
-        int j = this.widgets.get(0).getX();
+        int j = screen.width / 2 - 155;
 
-        for (ClickableWidget s : this.widgets) {
-            s.setPos(j + i, y);
-            s.render(matrices, mouseX, mouseY, tickDelta);
-            i += s.getWidth() + 10;
+        for (var widget : this.widgets) {
+            widget.setPos(j + i, y);
+            widget.render(matrices, mouseX, mouseY, tickDelta);
+            i += widget.getWidth() + 10;
         }
     }
 

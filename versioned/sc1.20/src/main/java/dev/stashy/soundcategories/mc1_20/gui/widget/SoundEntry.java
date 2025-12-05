@@ -2,6 +2,7 @@ package dev.stashy.soundcategories.mc1_20.gui.widget;
 
 import com.google.common.collect.ImmutableList;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
@@ -23,14 +24,22 @@ public class SoundEntry extends OptionListWidget.WidgetEntry implements Versione
         if (this.widgets.isEmpty()) {
             return;
         }
+        final var client = MinecraftClient.getInstance();
+        if (client == null) {
+            return;
+        }
+        final var screen = client.currentScreen;
+        if (screen == null) {
+            return;
+        }
 
         int i = 0;
-        int j = this.widgets.get(0).getX();
+        int j = screen.width / 2 - 155;
 
-        for (ClickableWidget s : this.widgets) {
-            s.setPosition(j + i, y);
-            s.render(context, mouseX, mouseY, tickDelta);
-            i += s.getWidth() + 10;
+        for (var widget : this.widgets) {
+            widget.setPosition(j + i, y);
+            widget.render(context, mouseX, mouseY, tickDelta);
+            i += widget.getWidth() + 10;
         }
     }
 

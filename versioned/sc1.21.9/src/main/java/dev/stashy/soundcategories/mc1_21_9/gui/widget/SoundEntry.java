@@ -23,14 +23,22 @@ public class SoundEntry extends OptionListWidget.WidgetEntry implements Versione
         if (this.widgets.isEmpty()) {
             return;
         }
+        final var client = MinecraftClient.getInstance();
+        if (client == null) {
+            return;
+        }
+        final var screen = client.currentScreen;
+        if (screen == null) {
+            return;
+        }
 
         int i = 0;
-        int j = this.widgets.get(0).getX();
+        int j = screen.width / 2 - 155;
 
-        for (ClickableWidget s : this.widgets) {
-            s.setPosition(j + i, this.getContentY());
-            s.render(context, mouseX, mouseY, deltaTicks);
-            i += s.getWidth() + 10;
+        for (var widget : this.widgets) {
+            widget.setPosition(j + i, this.getContentY());
+            widget.render(context, mouseX, mouseY, deltaTicks);
+            i += widget.getWidth() + 10;
         }
     }
 

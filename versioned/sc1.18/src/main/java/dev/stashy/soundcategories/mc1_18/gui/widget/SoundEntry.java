@@ -1,6 +1,7 @@
 package dev.stashy.soundcategories.mc1_18.gui.widget;
 
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -16,15 +17,23 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
         if (this.widgets.isEmpty()) {
             return;
         }
+        final var client = MinecraftClient.getInstance();
+        if (client == null) {
+            return;
+        }
+        final var screen = client.currentScreen;
+        if (screen == null) {
+            return;
+        }
 
         int i = 0;
         int j = this.widgets.get(0).x;
 
-        for (ClickableWidget s : this.widgets) {
-            s.x = j + i;
-            s.y = y;
-            s.render(matrices, mouseX, mouseY, tickDelta);
-            i += s.getWidth() + 10;
+        for (var widget : this.widgets) {
+            widget.x = j + i;
+            widget.y = y;
+            widget.render(matrices, mouseX, mouseY, tickDelta);
+            i += widget.getWidth() + 10;
         }
     }
 }
