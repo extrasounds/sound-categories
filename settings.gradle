@@ -14,7 +14,7 @@ pluginManagement {
 }
 
 include 'shared'
-include 'versioned:sc1.21.9', 'versioned:sc1.21'
+include 'versioned:sc1.21.11', 'versioned:sc1.21.9', 'versioned:sc1.21'
 include 'versioned:sc1.20.5', 'versioned:sc1.20.3', 'versioned:sc1.20.2', 'versioned:sc1.20'
 include 'versioned:sc1.19.4', 'versioned:sc1.19.3', 'versioned:sc1.19'
 include 'versioned:sc1.18'

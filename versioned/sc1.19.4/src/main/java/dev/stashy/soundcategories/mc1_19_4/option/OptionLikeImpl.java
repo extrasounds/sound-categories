@@ -6,10 +6,9 @@ import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
 
 public class OptionLikeImpl extends VersionedOptionLikeProvider {
-    @SuppressWarnings("unchecked")
     @Override
     public ClickableWidget createWidget(Object instance, GameOptions options, int x, int y, int width) {
-        return ((SimpleOption<Double>) instance).createWidget(options, x, y, width);
+        return ((SimpleOption<?>) instance).createWidget(options, x, y, width);
     }
 
     @Override

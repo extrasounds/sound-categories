@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.stashy.soundcategories.mc1_21_11.mixin",
+  "plugin": "dev.stashy.soundcategories.mc1_21_11.VersionedMixinPlugin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+  ],
+  "client": [
+    "GameOptionsMixin",
+    "SoundSettingsMixin",
+    "SoundPreviewerMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
