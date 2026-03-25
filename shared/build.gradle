@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom'
+    id 'net.fabricmc.fabric-loom'
 }
 
 var soundCategories = project.parent
@@ -16,8 +16,8 @@ tasks.withType(ProcessResources).configureEach {
 
 dependencies {
     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-    mappings "net.fabricmc:yarn:${rootProject.minecraft_version}${rootProject.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
+//    mappings "net.fabricmc:yarn:${rootProject.minecraft_version}${rootProject.yarn_mappings}:v2"
+    implementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
 
     implementation "me.lonefelidae16:groominglib:${rootProject.groom_version}"
 }

@@ -2,8 +2,8 @@ package dev.stashy.soundcategories.shared.option;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
 import me.lonefelidae16.groominglib.api.McVersionInterchange;
-import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.option.GameOptions;
+import net.minecraft.client.Options;
+import net.minecraft.client.gui.components.AbstractWidget;
 
 import java.util.Objects;
 
@@ -21,7 +21,7 @@ public abstract class VersionedOptionLikeProvider {
         INSTANCE = Objects.requireNonNull(instance);
     }
 
-    public abstract ClickableWidget createWidget(Object instance, GameOptions options, int x, int y, int width);
+    public abstract AbstractWidget createWidget(Object instance, Options options, int x, int y, int width);
 
     public abstract Object ofBoolean(String key);
 }

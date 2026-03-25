@@ -1,3 +1,0 @@
-accessWidener	v1	named
-accessible class net/minecraft/client/option/GameOptions$Visitor
-accessible method net/minecraft/client/option/GameOptions getPercentValueText (Lnet/minecraft/text/Text;D)Lnet/minecraft/text/Text;

@@ -6,19 +6,19 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * The enum modifier API that defines your unique {@link net.minecraft.sound.SoundCategory}.
+ * The enum modifier API that defines your unique {@link net.minecraft.sounds.SoundSource}.
  */
 public interface CategoryLoader {
     /**
-     * Registers a new {@link net.minecraft.sound.SoundCategory} and injects its reference to the field that has this annotation.<br>
+     * Registers a new {@link net.minecraft.sounds.SoundSource} and injects its reference to the field that has this annotation.<br>
      * The field name will be prefixed your modId and {@code $}, like following:<br>
      * <ul>
      *     <li>Declared by {@code mod-id}
-     *     <pre>class CustomCats implements CategoryLoader {<br>    @Register<br>    public static SoundCategory MASTER;<br>}</pre></li>
+     *     <pre>class CustomCats implements CategoryLoader {<br>    @Register<br>    public static SoundSource MASTER;<br>}</pre></li>
      *     <li>Generated code at runtime
-     *     <pre>SoundCategory.MOD_ID$MASTER("mod_id$master");</pre></li>
+     *     <pre>SoundSource.MOD_ID$MASTER("mod_id$master");</pre></li>
      * </ul>
-     * In this case, the translation key will be {@code "soundCategory.mod_id$master"}. You can access this SoundCategory using {@code CustomCats.MASTER} directly.
+     * In this case, the translation key will be {@code "soundCategory.mod_id$master"}. You can access this SoundSource using {@code CustomCats.MASTER} directly.
      *
      * @see Register#id
      * @see Register#master
@@ -54,13 +54,13 @@ public interface CategoryLoader {
 
         /**
          * Sets tooltip to be displayed on mouse hover.<br>
-         * This value will be passed to {@link net.minecraft.text.Text#translatable}.
+         * This value will be passed to {@link net.minecraft.network.chat.Component#translatable}.
          */
         String tooltip() default "";
 
         /**
          * Sets preview sound Identifier for MC 1.21.9 or later.<br>
-         * This value will be passed to {@link net.minecraft.util.Identifier#of(String)}.
+         * This value will be passed to {@link net.minecraft.resources.Identifier#parse(String)}.
          */
         String[] preview() default "";
     }

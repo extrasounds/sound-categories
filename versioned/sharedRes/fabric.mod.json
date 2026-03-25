@@ -16,10 +16,5 @@
   "environment": "client",
   "mixins": ${moduleMixins},
   "entrypoints": {
-  },
-  "depends": {
-    "fabricloader": "*",
-    "minecraft": "*",
-    "fabric": "*"
   }
 }

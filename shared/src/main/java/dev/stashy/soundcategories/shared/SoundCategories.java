@@ -5,9 +5,9 @@ import dev.stashy.soundcategories.shared.text.VersionedText;
 import me.lonefelidae16.groominglib.api.PrefixableMessageFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundSource;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,22 +31,22 @@ public final class SoundCategories {
     private static final Set<String> SUPPRESSED_NAMES = new HashSet<>();
 
     /**
-     * The Map of {@link SoundCategory} including to which group the category belongs.<br>
+     * The Map of {@link SoundSource} including to which group the category belongs.<br>
      * {@code Unique category} -> {@code Group category}
      */
-    public static final Map<SoundCategory, SoundCategory> PARENTS = new EnumMap<>(SoundCategory.class);
+    public static final Map<SoundSource, SoundSource> PARENTS = new EnumMap<>(SoundSource.class);
     /**
-     * The Map of {@link String} -> {@link SoundCategory} showing which a master category the class has.<br>
+     * The Map of {@link String} -> {@link SoundSource} showing which a master category the class has.<br>
      * {@code Class name} -> {@code Master category}
      */
-    public static final Map<String, SoundCategory> MASTERS = new HashMap<>();
+    public static final Map<String, SoundSource> MASTERS = new HashMap<>();
     public static final List<String> MASTER_CLASSES = new ArrayList<>();
-    public static final Map<SoundCategory, Float> DEFAULT_LEVELS = new EnumMap<>(SoundCategory.class);
-    public static final Map<SoundCategory, Boolean> TOGGLEABLE_CATS = new EnumMap<>(SoundCategory.class);
-    public static final Map<SoundCategory, Text> TOOLTIPS = new EnumMap<>(SoundCategory.class);
-    public static final Map<SoundCategory, Identifier[]> PREVIEW_SOUNDS = new EnumMap<>(SoundCategory.class);
+    public static final Map<SoundSource, Float> DEFAULT_LEVELS = new EnumMap<>(SoundSource.class);
+    public static final Map<SoundSource, Boolean> TOGGLEABLE_CATS = new EnumMap<>(SoundSource.class);
+    public static final Map<SoundSource, Component> TOOLTIPS = new EnumMap<>(SoundSource.class);
+    public static final Map<SoundSource, Identifier[]> PREVIEW_SOUNDS = new EnumMap<>(SoundSource.class);
 
-    public static String getOptionsTranslationKey(SoundCategory target) {
+    public static String getOptionsTranslationKey(SoundSource target) {
         return OPTION_PREFIX_SOUND_CAT + target.getName();
     }
 
@@ -74,7 +74,7 @@ public final class SoundCategories {
     }
 
     public static void setup() {
-        var soundCategoryClass = SoundCategory.class;
+        var soundCategoryClass = SoundSource.class;
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             SoundCategories.LOGGER.info("Loaded SoundCategory: {}", EnumSet.allOf(soundCategoryClass).stream().map(Enum::toString).collect(Collectors.joining(", ")));
         }
@@ -89,12 +89,12 @@ public final class SoundCategories {
 
                 for (Field field : allAnnotations.get(container)) {
                     final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                    if (!(field.get(categoryLoader) instanceof final SoundCategory category)) {
+                    if (!(field.get(categoryLoader) instanceof final SoundSource category)) {
                         final String fieldClassName = generateFieldClassName(categoryLoader.getClass(), field);
                         if (!SUPPRESSED_NAMES.contains(fieldClassName)) {
                             LOGGER.error(
                                     "Cast check failed for the member '{}'.", fieldClassName,
-                                    new ClassCastException("Can not cast %s to SoundCategory".formatted(field.get(categoryLoader).getClass().getCanonicalName())));
+                                    new ClassCastException("Can not cast %s to SoundSource".formatted(field.get(categoryLoader).getClass().getCanonicalName())));
                             SUPPRESSED_NAMES.add(fieldClassName);
                         }
                         continue;
@@ -127,7 +127,7 @@ public final class SoundCategories {
 
                 for (Field field : allAnnotations.get(container)) {
                     final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                    if (!(field.get(categoryLoader) instanceof final SoundCategory category)) {
+                    if (!(field.get(categoryLoader) instanceof final SoundSource category)) {
                         continue;
                     }
 
@@ -159,7 +159,7 @@ public final class SoundCategories {
 
                     if (annotation.preview().length > 0) {
                         try {
-                            PREVIEW_SOUNDS.put(category, Objects.requireNonNull(Arrays.stream(annotation.preview()).map(Identifier::tryParse).toArray(Identifier[]::new)));
+                            PREVIEW_SOUNDS.put(category, Objects.requireNonNull(Arrays.stream(annotation.preview()).map(Identifier::parse).toArray(Identifier[]::new)));
                         } catch (Exception ex) {
                             LOGGER.error("Parsing Identifier of preview sound failed: {}", String.join(", ", annotation.preview()), ex);
                         }
@@ -174,15 +174,15 @@ public final class SoundCategories {
         SUPPRESSED_NAMES.clear();
     }
 
-    public static SoundCategory[] filterVanillaCategory() {
-        return Arrays.stream(SoundCategory.values()).filter(it -> {
+    public static SoundSource[] filterVanillaCategory() {
+        return Arrays.stream(SoundSource.values()).filter(it -> {
             return !SoundCategories.PARENTS.containsKey(it) &&
                     !SoundCategories.PARENTS.containsValue(it) &&
-                    it != SoundCategory.MASTER;
-        }).toArray(SoundCategory[]::new);
+                    it != SoundSource.MASTER;
+        }).toArray(SoundSource[]::new);
     }
 
-    public static SoundCategory[] filterCustomizedMasterCategory() {
-        return SoundCategories.MASTER_CLASSES.stream().map(SoundCategories.MASTERS::get).toArray(SoundCategory[]::new);
+    public static SoundSource[] filterCustomizedMasterCategory() {
+        return SoundCategories.MASTER_CLASSES.stream().map(SoundCategories.MASTERS::get).toArray(SoundSource[]::new);
     }
 }
