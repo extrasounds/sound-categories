@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_2.option;
+package dev.stashy.soundcategories.mc1_16_1.option;
 
 import dev.stashy.soundcategories.shared.option.VersionedOptionLikeProvider;
 import net.minecraft.client.options.BooleanOption;

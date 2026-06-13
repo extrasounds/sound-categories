@@ -133,6 +133,7 @@ dependencies {
     compileOnly include(project(path: 'versioned:sc1.16.5'))
     compileOnly include(project(path: 'versioned:sc1.16.4'))
     compileOnly include(project(path: 'versioned:sc1.16.2'))
+    compileOnly include(project(path: 'versioned:sc1.16.1'))
 
     // DevLaunch
     runtimeOnly fileTree(dir: 'shared', exclude: [sourcesPaths], include: [devLibsPaths])
