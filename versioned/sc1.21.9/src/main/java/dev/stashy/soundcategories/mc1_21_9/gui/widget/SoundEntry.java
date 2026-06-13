@@ -44,7 +44,7 @@ public class SoundEntry extends OptionListWidget.WidgetEntry implements Versione
     }
 
     @Override
-    public List<ClickableWidget> getWidgets() {
+    public List<?> getWidgets() {
         return this.widgets;
     }
 }

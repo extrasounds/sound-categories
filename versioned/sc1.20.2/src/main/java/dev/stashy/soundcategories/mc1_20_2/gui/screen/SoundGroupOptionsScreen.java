@@ -1,32 +1,35 @@
 package dev.stashy.soundcategories.mc1_20_2.gui.screen;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreen;
+import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreenWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedButtonWrapper;
+import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 
 import java.util.Arrays;
+import java.util.Objects;
 
-public class SoundGroupOptionsScreen extends VersionedSoundGroupOptionsScreen {
+public class SoundGroupOptionsScreen extends GameOptionsScreen implements VersionedSoundGroupOptionsScreenWrapper {
     private final SoundCategory parentCategory;
+    private VersionedElementListWrapper list;
 
-    public SoundGroupOptionsScreen(Screen parent, GameOptions gameOptions, SoundCategory category) {
-        super(parent, gameOptions, Text.translatable(SoundCategories.getOptionsTranslationKey(category)));
+    public SoundGroupOptionsScreen(Screen parent, Object gameOptions, SoundCategory category) {
+        super(parent, (GameOptions) gameOptions, Text.translatable(SoundCategories.getOptionsTranslationKey(category)));
         this.parentCategory = category;
     }
 
     @Override
     protected void init() {
-        super.init();
-
+        this.list = Objects.requireNonNull(VersionedElementListWrapper.newInstance(this.client, this.width, this.height, 32, this.height - 32, 25));
         this.list.addCategory(this.parentCategory);
 
         final SoundCategory[] categories = Arrays.stream(SoundCategory.values()).filter(it -> {

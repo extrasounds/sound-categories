@@ -2,6 +2,7 @@ package dev.stashy.soundcategories.mc1_17.gui.widget;
 
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -30,9 +31,10 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
         }
 
         int i = 0;
-        int j = this.widgets.get(0).x;
+        int j = ((ClickableWidget) this.widgets.get(0)).x;
 
-        for (ClickableWidget widget : this.widgets) {
+        for (Element element : this.widgets) {
+            ClickableWidget widget = (ClickableWidget) element;
             widget.x = j + i;
             widget.y = y;
             widget.render(matrices, mouseX, mouseY, tickDelta);
@@ -42,6 +44,6 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
 
     @Override
     public List<? extends Selectable> method_37025() {
-        return this.widgets;
+        return (List<? extends Selectable>) this.widgets;
     }
 }

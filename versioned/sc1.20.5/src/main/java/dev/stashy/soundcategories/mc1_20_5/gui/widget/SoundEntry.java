@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class SoundEntry extends OptionListWidget.WidgetEntry implements Versione
     }
 
     @Override
-    public List<net.minecraft.client.gui.widget.ClickableWidget> getWidgets() {
+    public List<?> getWidgets() {
         return this.widgets;
     }
 }

@@ -11,19 +11,14 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.gui.widget.TexturedButtonWidget;
-import net.minecraft.client.option.GameOptions;
 import net.minecraft.sound.SoundCategory;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 public interface VersionedElementListWrapper extends Drawable, Element {
     String METHOD_KEY_INIT = VersionedElementListWrapper.class.getCanonicalName() + "#init";
@@ -76,14 +71,14 @@ public interface VersionedElementListWrapper extends Drawable, Element {
 
     boolean mouseScrolledImpl(double mouseX, double mouseY, double horizontalAmount, double verticalAmount);
 
-    void addDrawable(Object option, ClickableWidget button);
+    void addDrawable(Object option, Object button);
 
     @Environment(EnvType.CLIENT)
     interface VersionedSoundEntry {
         String METHOD_KEY_CTOR = VersionedSoundEntry.class.getCanonicalName() + "#<init>";
 
         @SuppressWarnings("unchecked")
-        static <T extends VersionedSoundEntry> T newInstance(Map<Object, ClickableWidget> widgets) {
+        static <T extends VersionedSoundEntry> T newInstance(Map<Object, Object> optionWidgetMap) {
             Constructor<?> init = SoundCategories.CACHED_INIT_MAP.getOrDefault(METHOD_KEY_CTOR, null);
 
             if (init == null) {
@@ -97,14 +92,14 @@ public interface VersionedElementListWrapper extends Drawable, Element {
             }
 
             try {
-                return (T) Objects.requireNonNull(init).newInstance(widgets);
+                return (T) Objects.requireNonNull(init).newInstance(optionWidgetMap);
             } catch (Exception ex) {
                 SoundCategories.LOGGER.error("Cannot instantiate 'SoundEntry'", ex);
             }
             return null;
         }
 
-        static <T extends VersionedSoundEntry> T create(GameOptions options, int width, Object option) {
+        static <T extends VersionedSoundEntry> T create(Object options, int width, Object option) {
             return VersionedSoundEntry.newInstance(
                     ImmutableMap.of(option, Objects.requireNonNull(
                             VersionedOptionLikeProvider.INSTANCE.createWidget(option, options, width / 2 - 155, 0, 310)
@@ -112,9 +107,9 @@ public interface VersionedElementListWrapper extends Drawable, Element {
             );
         }
 
-        static <T extends VersionedSoundEntry> T createDouble(GameOptions options, int width, Object first, @Nullable Object second) {
-            Map<Object, ClickableWidget> widgets;
-            ClickableWidget firstWidget = VersionedOptionLikeProvider.INSTANCE.createWidget(first, options, width / 2 - 155, 0, 150);
+        static <T extends VersionedSoundEntry> T createDouble(Object options, int width, Object first, @Nullable Object second) {
+            Map<Object, Object> widgets;
+            Object firstWidget = VersionedOptionLikeProvider.INSTANCE.createWidget(first, options, width / 2 - 155, 0, 150);
             if (second == null) {
                 widgets = ImmutableMap.of(first, firstWidget);
             } else {
@@ -126,8 +121,8 @@ public interface VersionedElementListWrapper extends Drawable, Element {
             return VersionedSoundEntry.newInstance(widgets);
         }
 
-        static <T extends VersionedSoundEntry> T createGroup(GameOptions options, Object option, int width, ButtonWidget.PressAction pressAction) {
-            Map<Object, ClickableWidget> widgets = ImmutableMap.of(
+        static <T extends VersionedSoundEntry> T createGroup(Object options, Object option, int width, ButtonWidget.PressAction pressAction) {
+            Map<Object, Object> widgets = ImmutableMap.of(
                     option, Objects.requireNonNull(VersionedOptionLikeProvider.INSTANCE.createWidget(option, options, width / 2 - 155, 0, 280)),
                     VersionedOptionLikeProvider.INSTANCE.ofBoolean(option.toString()), (TexturedButtonWidget) Objects.requireNonNull(
                             VersionedTexturedButtonWrapper.newInstance(width / 2 + 135, 0, 20, 20, 0, 0, 20,
@@ -136,13 +131,13 @@ public interface VersionedElementListWrapper extends Drawable, Element {
             return VersionedSoundEntry.newInstance(widgets);
         }
 
-        List<ClickableWidget> getWidgets();
+        List<?> getWidgets();
     }
 
     abstract class DefaultedSoundEntry extends ElementListWidget.Entry<DefaultedSoundEntry> implements VersionedSoundEntry {
-        protected final List<ClickableWidget> widgets;
+        protected final List<? extends Element> widgets;
 
-        public DefaultedSoundEntry(Collection<ClickableWidget> widgets) {
+        public DefaultedSoundEntry(Collection<? extends Element> widgets) {
             super();
             this.widgets = ImmutableList.copyOf(widgets);
         }
@@ -153,7 +148,7 @@ public interface VersionedElementListWrapper extends Drawable, Element {
         }
 
         @Override
-        public List<ClickableWidget> getWidgets() {
+        public List<?> getWidgets() {
             return this.widgets;
         }
     }

@@ -3,7 +3,7 @@ package dev.stashy.soundcategories.mc1_21.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreen;
+import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreenWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
@@ -38,7 +38,13 @@ public abstract class SoundSettingsMixin extends GameOptionsScreen {
         }
 
         for (SoundCategory master : SoundCategories.filterCustomizedMasterCategory()) {
-            OptionListWidget.WidgetEntry widget = VersionedElementListWrapper.VersionedSoundEntry.createGroup(this.gameOptions, this.client.options.getSoundVolumeOption(master), this.width, button -> this.client.setScreen(VersionedSoundGroupOptionsScreen.newInstance(this, this.gameOptions, master)));
+            OptionListWidget.WidgetEntry widget = VersionedElementListWrapper.VersionedSoundEntry.createGroup(
+                    this.gameOptions,
+                    this.client.options.getSoundVolumeOption(master),
+                    this.width,
+                    button -> {
+                        this.client.setScreen((Screen) VersionedSoundGroupOptionsScreenWrapper.newInstance(this, this.gameOptions, master));
+                    });
             this.body.addEntry(widget);
         }
     }

@@ -10,15 +10,18 @@ public class TextImpl extends VersionedText {
         return Text.empty();
     }
 
+    @Override
     public Text getDoneText() {
         return ScreenTexts.DONE;
     }
 
+    @Override
     public Text getCancelText() {
         return ScreenTexts.CANCEL;
     }
 
-    public Text translatable(String key) {
-        return Text.translatable(key);
+    @Override
+    public Text translatable(String key, Object... args) {
+        return Text.translatable(key, args);
     }
 }

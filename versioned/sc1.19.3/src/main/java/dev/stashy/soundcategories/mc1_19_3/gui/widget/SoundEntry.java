@@ -8,6 +8,7 @@ import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -45,7 +46,7 @@ public class SoundEntry extends ButtonListWidget.ButtonEntry implements Versione
     }
 
     @Override
-    public List<ClickableWidget> getWidgets() {
+    public List<?> getWidgets() {
         return this.widgets;
     }
 }

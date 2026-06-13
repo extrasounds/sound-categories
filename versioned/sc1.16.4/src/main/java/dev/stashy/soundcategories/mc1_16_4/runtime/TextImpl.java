@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_5.runtime;
+package dev.stashy.soundcategories.mc1_16_4.runtime;
 
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import net.minecraft.client.gui.screen.ScreenTexts;
@@ -22,7 +22,7 @@ public class TextImpl extends VersionedText {
     }
 
     @Override
-    public Text translatable(String key) {
-        return new TranslatableText(key);
+    public Text translatable(String key, Object... args) {
+        return new TranslatableText(key, args);
     }
 }

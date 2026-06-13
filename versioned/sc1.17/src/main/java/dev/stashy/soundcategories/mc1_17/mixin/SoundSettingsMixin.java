@@ -3,7 +3,7 @@ package dev.stashy.soundcategories.mc1_17.mixin;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreen;
+import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreenWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedButtonWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
@@ -46,7 +46,7 @@ public abstract class SoundSettingsMixin extends GameOptionsScreen {
         this.list.addDrawable(Option.SUBTITLES, Option.SUBTITLES.createButton(this.gameOptions, this.width / 2 - 75, 0, 150));
 
         for (SoundCategory category : SoundCategories.filterCustomizedMasterCategory()) {
-            this.list.addGroup(category, button -> this.client.openScreen(VersionedSoundGroupOptionsScreen.newInstance(this, this.gameOptions, category)));
+            this.list.addGroup(category, button -> this.client.openScreen((Screen) VersionedSoundGroupOptionsScreenWrapper.newInstance(this, this.gameOptions, category)));
         }
 
         this.addDrawableChild(

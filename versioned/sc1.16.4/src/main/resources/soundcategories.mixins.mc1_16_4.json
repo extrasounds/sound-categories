@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.stashy.soundcategories.mc1_16_4.mixin",
+  "plugin": "dev.stashy.soundcategories.mc1_16_4.VersionedMixinPlugin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "GameOptionsMixin",
+    "SoundSettingsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

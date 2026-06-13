@@ -39,7 +39,7 @@ public class SoundList extends EntryListWidget<OptionListWidget.WidgetEntry> imp
     }
 
     @Override
-    public void addDrawable(Object option, ClickableWidget button) {
+    public void addDrawable(Object option, Object button) {
         this.addEntry(VersionedSoundEntry.newInstance(ImmutableMap.of(option, button)));
     }
 
@@ -70,7 +70,7 @@ public class SoundList extends EntryListWidget<OptionListWidget.WidgetEntry> imp
     public int addSingleOptionEntry(Object option, boolean editable) {
         VersionedSoundEntry entry = VersionedSoundEntry.create(this.client.options, this.width, option);
         if (!editable) {
-            entry.getWidgets().forEach(widget -> widget.active = false);
+            entry.getWidgets().stream().map(ClickableWidget.class::cast).forEach(widget -> widget.active = false);
         }
         return this.addEntry((OptionListWidget.WidgetEntry) entry);
     }

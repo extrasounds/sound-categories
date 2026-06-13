@@ -41,9 +41,9 @@ public abstract class SoundCategoryMixin {
      * Tries to make the custom enum. The created variable can be accessed from specified field.<br>
      * When the name already exists, the reference is created to match it.
      *
-     * @param field    The referer.
-     * @param instance The instance of an Object that has {@code field}.
-     * @param name     The name trying to register.
+     * @param field    A referer.
+     * @param instance An instance of an Object that has {@code field}.
+     * @param name     A name trying to register.
      * @throws IllegalAccessException Thrown when cannot access to the {@code field}.
      */
     @Unique
@@ -74,7 +74,7 @@ public abstract class SoundCategoryMixin {
     }
 
     /**
-     * Adds customized enum variant of {@link SoundCategory}.
+     * Adds customized enum variant into {@link SoundCategory}.
      */
     @Inject(method = "<clinit>", at = @At(value = "FIELD",
             opcode = Opcodes.PUTSTATIC,
