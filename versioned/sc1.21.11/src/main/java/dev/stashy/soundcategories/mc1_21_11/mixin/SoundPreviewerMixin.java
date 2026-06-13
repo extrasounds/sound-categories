@@ -36,7 +36,7 @@ public abstract class SoundPreviewerMixin {
         return SoundEvent.of(ids[(int) (Math.random() * ids.length)]);
     }
 
-    @ModifyExpressionValue(method = "preview", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/PositionedSoundInstance;master(Lnet/minecraft/sound/SoundEvent;FF)Lnet/minecraft/client/sound/PositionedSoundInstance;"))
+    @ModifyExpressionValue(method = "preview", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/sound/PositionedSoundInstance;ui(Lnet/minecraft/sound/SoundEvent;FF)Lnet/minecraft/client/sound/PositionedSoundInstance;"))
     private static PositionedSoundInstance soundcategories$changeVolume(PositionedSoundInstance original) {
         if (category == null || !SoundCategories.PREVIEW_SOUNDS.containsKey(category)) {
             return original;
