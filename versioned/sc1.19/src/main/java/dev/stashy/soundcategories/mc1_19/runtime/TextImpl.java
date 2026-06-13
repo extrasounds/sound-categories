@@ -24,4 +24,9 @@ public class TextImpl extends VersionedText {
     public Text translatable(String key, Object... args) {
         return Text.translatable(key, args);
     }
+
+    @Override
+    public Text getOffText() {
+        return ScreenTexts.OFF;
+    }
 }

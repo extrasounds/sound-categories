@@ -1,24 +1,24 @@
-package dev.stashy.soundcategories.mc1_16.runtime;
+package dev.stashy.soundcategories.mc1_15_2.runtime;
 
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
-import net.minecraft.client.gui.screen.ScreenTexts;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 
 public class TextImpl extends VersionedText {
     @Override
     public Text empty() {
-        return Text.method_30163("");
+        return new LiteralText("");
     }
 
     @Override
     public Text getDoneText() {
-        return ScreenTexts.DONE;
+        return new TranslatableText("gui.done");
     }
 
     @Override
     public Text getCancelText() {
-        return ScreenTexts.CANCEL;
+        return new TranslatableText("gui.cancel");
     }
 
     @Override
@@ -28,6 +28,6 @@ public class TextImpl extends VersionedText {
 
     @Override
     public Text getOffText() {
-        return ScreenTexts.OFF;
+        return new TranslatableText("options.off");
     }
 }

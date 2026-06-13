@@ -29,4 +29,6 @@ public abstract class VersionedText {
     public abstract Text getCancelText();
 
     public abstract Text translatable(String key, Object... args);
+
+    public abstract Text getOffText();
 }
