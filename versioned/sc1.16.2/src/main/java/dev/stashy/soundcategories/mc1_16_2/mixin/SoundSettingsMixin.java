@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_3.mixin;
+package dev.stashy.soundcategories.mc1_16_2.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

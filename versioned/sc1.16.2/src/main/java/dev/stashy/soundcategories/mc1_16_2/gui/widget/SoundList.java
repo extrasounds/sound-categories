@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_3.gui.widget;
+package dev.stashy.soundcategories.mc1_16_2.gui.widget;
 
 import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
@@ -99,9 +99,9 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Def
                     (gameOptions, doubleOption) -> {
                         double value = doubleOption.get(gameOptions);
                         if (value == 0.) {
-                            return doubleOption.getGenericLabel(ScreenTexts.OFF);
+                            return doubleOption.method_30501(ScreenTexts.OFF);
                         } else {
-                            return doubleOption.getPercentLabel(value);
+                            return doubleOption.method_30503(value);
                         }
                     });
         }

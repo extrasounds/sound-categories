@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_3.gui.widget;
+package dev.stashy.soundcategories.mc1_16_2.gui.widget;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedTexturedButtonWrapper;

@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_3.gui.widget;
+package dev.stashy.soundcategories.mc1_16_2.gui.widget;
 
 import dev.stashy.soundcategories.shared.gui.widget.VersionedButtonWrapper;
 import net.minecraft.client.gui.widget.ButtonWidget;
