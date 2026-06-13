@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_17_1.option;
+package dev.stashy.soundcategories.mc1_17.option;
 
 import dev.stashy.soundcategories.shared.option.VersionedOptionLikeProvider;
 import net.minecraft.client.gui.widget.ClickableWidget;

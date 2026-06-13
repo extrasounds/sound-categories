@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_17_1.gui.widget;
+package dev.stashy.soundcategories.mc1_17.gui.widget;
 
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.MinecraftClient;
@@ -38,5 +38,10 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
             widget.render(matrices, mouseX, mouseY, tickDelta);
             i += widget.getWidth() + 10;
         }
+    }
+
+    @Override
+    public List<? extends Selectable> method_37025() {
+        return this.widgets;
     }
 }

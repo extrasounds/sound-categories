@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_17_1.gui.widget;
+package dev.stashy.soundcategories.mc1_17.gui.widget;
 
 import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;

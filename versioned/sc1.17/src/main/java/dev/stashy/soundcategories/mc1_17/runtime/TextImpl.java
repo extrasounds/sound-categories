@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_17_1.runtime;
+package dev.stashy.soundcategories.mc1_17.runtime;
 
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import net.minecraft.client.gui.screen.ScreenTexts;
