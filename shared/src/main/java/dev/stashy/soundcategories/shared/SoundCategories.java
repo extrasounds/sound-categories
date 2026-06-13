@@ -1,7 +1,7 @@
 package dev.stashy.soundcategories.shared;
 
 import dev.stashy.soundcategories.CategoryLoader;
-import dev.stashy.soundcategories.shared.text.VersionedText;
+import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import me.lonefelidae16.groominglib.api.PrefixableMessageFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.entrypoint.EntrypointContainer;

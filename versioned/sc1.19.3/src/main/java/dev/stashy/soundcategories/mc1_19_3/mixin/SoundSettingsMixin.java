@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screen.option.SoundOptionsScreen;
 import net.minecraft.client.gui.widget.ButtonListWidget;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.client.option.SimpleOption;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -36,7 +37,7 @@ public abstract class SoundSettingsMixin extends GameOptionsScreen {
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/option/SoundOptionsScreen;addSelectableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
     private void soundcategories$addCustomSoundWidgets(CallbackInfo ci) {
-        for (var master : SoundCategories.filterCustomizedMasterCategory()) {
+        for (SoundCategory master : SoundCategories.filterCustomizedMasterCategory()) {
             ButtonListWidget.ButtonEntry widget = VersionedElementListWrapper.VersionedSoundEntry.createGroup(this.gameOptions, this.client.options.getSoundVolumeOption(master), this.width, button -> this.client.setScreen(VersionedSoundGroupOptionsScreen.newInstance(this, this.gameOptions, master)));
             this.optionButtons.addEntry(widget);
         }

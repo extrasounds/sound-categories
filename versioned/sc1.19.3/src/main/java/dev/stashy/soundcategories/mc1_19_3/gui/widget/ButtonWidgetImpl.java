@@ -11,7 +11,7 @@ public class ButtonWidgetImpl extends ButtonWidget implements VersionedButtonWra
     }
 
     public static ButtonWidgetImpl init(int x, int y, int width, int height, Text message, ButtonWidget.PressAction callback, Text tooltipContent) {
-        var result = new ButtonWidgetImpl(x, y, width, height, message, callback, ButtonWidget.DEFAULT_NARRATION_SUPPLIER);
+        ButtonWidgetImpl result = new ButtonWidgetImpl(x, y, width, height, message, callback, ButtonWidget.DEFAULT_NARRATION_SUPPLIER);
         result.setTooltip(Tooltip.of(tooltipContent));
         return result;
     }

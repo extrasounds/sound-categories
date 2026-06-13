@@ -1,7 +1,7 @@
 package dev.stashy.soundcategories.shared.gui.widget;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.text.VersionedText;
+import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import me.lonefelidae16.groominglib.api.McVersionInterchange;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;

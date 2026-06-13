@@ -113,6 +113,7 @@ dependencies {
     // 1.21 family
     compileOnly include(project(path: 'versioned:sc1.21.11'))
     compileOnly include(project(path: 'versioned:sc1.21.9'))
+    compileOnly include(project(path: 'versioned:sc1.21.2'))
     compileOnly include(project(path: 'versioned:sc1.21'))
     // 1.20 family
     compileOnly include(project(path: 'versioned:sc1.20.5'))
@@ -125,6 +126,8 @@ dependencies {
     compileOnly include(project(path: 'versioned:sc1.19'))
     // 1.18 family
     compileOnly include(project(path: 'versioned:sc1.18'))
+    // 1.17 family
+    compileOnly include(project(path: 'versioned:sc1.17.1'))
 
     // DevLaunch
     runtimeOnly fileTree(dir: 'shared', exclude: [sourcesPaths], include: [devLibsPaths])

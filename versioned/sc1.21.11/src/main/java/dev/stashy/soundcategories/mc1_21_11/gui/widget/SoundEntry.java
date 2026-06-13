@@ -6,6 +6,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 
@@ -25,11 +26,11 @@ public class SoundEntry extends OptionListWidget.Component implements VersionedE
         if (this.widgets.isEmpty()) {
             return;
         }
-        final var client = MinecraftClient.getInstance();
+        final MinecraftClient client = MinecraftClient.getInstance();
         if (client == null) {
             return;
         }
-        final var screen = client.currentScreen;
+        final Screen screen = client.currentScreen;
         if (screen == null) {
             return;
         }
@@ -37,7 +38,7 @@ public class SoundEntry extends OptionListWidget.Component implements VersionedE
         int i = 0;
         int j = screen.width / 2 - 155;
 
-        for (var widget : this.widgets) {
+        for (ClickableWidget widget : this.widgets) {
             widget.setPosition(j + i, this.getContentY());
             widget.render(context, mouseX, mouseY, deltaTicks);
             i += widget.getWidth() + 10;

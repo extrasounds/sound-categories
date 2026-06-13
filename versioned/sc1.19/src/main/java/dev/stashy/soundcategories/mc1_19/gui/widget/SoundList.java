@@ -1,5 +1,6 @@
 package dev.stashy.soundcategories.mc1_19.gui.widget;
 
+import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import me.lonefelidae16.groominglib.Util;
@@ -16,22 +17,21 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.Map;
 import java.util.Objects;
 
 public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper {
     private static final EnumMap<SoundCategory, SimpleOption<Double>> VOLUME_OPTS = Util.make(new EnumMap<>(SoundCategory.class), map -> {
-        for (var cat : SoundCategory.values()) {
+        for (SoundCategory cat : SoundCategory.values()) {
             final SimpleOption.TooltipFactoryGetter<Double> getter;
             if (SoundCategories.TOOLTIPS.containsKey(cat)) {
                 getter = SimpleOption.constantTooltip(SoundCategories.TOOLTIPS.get(cat));
             } else {
                 getter = SimpleOption.emptyTooltip();
             }
-            final var option = new SimpleOption<>(SoundCategories.getOptionsTranslationKey(cat), getter, (prefix, value) -> {
+            final SimpleOption<Double> option = new SimpleOption<>(SoundCategories.getOptionsTranslationKey(cat), getter, (prefix, value) -> {
                 return value == 0.0 ? GameOptions.getGenericValueText(prefix, ScreenTexts.OFF) : GameOptions.getPercentValueText(prefix, value);
             }, SimpleOption.DoubleSliderCallbacks.INSTANCE, (double) MinecraftClient.getInstance().options.getSoundVolume(cat), (value) -> {
-                var client = MinecraftClient.getInstance();
+                MinecraftClient client = MinecraftClient.getInstance();
                 client.getSoundManager().updateSoundVolume(cat, value.floatValue());
                 client.options.setSoundVolume(cat, value.floatValue());
             });
@@ -105,7 +105,7 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Def
 
     @Override
     public void addDrawable(Object option, ClickableWidget button) {
-        this.addEntry(VersionedSoundEntry.newInstance(Map.of(option, button)));
+        this.addEntry(VersionedSoundEntry.newInstance(ImmutableMap.of(option, button)));
     }
 
     private SimpleOption<?> createCustomizedOption(SoundCategory category) {

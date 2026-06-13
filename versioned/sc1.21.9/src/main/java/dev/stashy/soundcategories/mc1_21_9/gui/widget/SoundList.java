@@ -1,5 +1,6 @@
 package dev.stashy.soundcategories.mc1_21_9.gui.widget;
 
+import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.MinecraftClient;
@@ -14,7 +15,6 @@ import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.Map;
 
 public class SoundList extends ElementListWidget<OptionListWidget.WidgetEntry> implements VersionedElementListWrapper {
     public SoundList(MinecraftClient minecraftClient, int i, int j, int k, int l) {
@@ -43,7 +43,7 @@ public class SoundList extends ElementListWidget<OptionListWidget.WidgetEntry> i
 
     @Override
     public void addDrawable(Object option, ClickableWidget button) {
-        this.addEntry(VersionedSoundEntry.newInstance(Map.of(option, button)));
+        this.addEntry(VersionedSoundEntry.newInstance(ImmutableMap.of(option, button)));
     }
 
     private SimpleOption<?> createCustomizedOption(SoundCategory category) {
@@ -61,7 +61,7 @@ public class SoundList extends ElementListWidget<OptionListWidget.WidgetEntry> i
 
     @Override
     public int addSingleOptionEntry(Object option, boolean editable) {
-        var entry = VersionedSoundEntry.create(this.client.options, this.width, option);
+        VersionedSoundEntry entry = VersionedSoundEntry.create(this.client.options, this.width, option);
         if (!editable) {
             entry.getWidgets().forEach(widget -> widget.active = false);
         }

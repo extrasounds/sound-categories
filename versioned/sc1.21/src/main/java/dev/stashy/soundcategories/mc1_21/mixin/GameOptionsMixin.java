@@ -40,7 +40,7 @@ public abstract class GameOptionsMixin {
     @ModifyExpressionValue(method = "createSoundVolumeOption", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/option/SimpleOption;emptyTooltip()Lnet/minecraft/client/option/SimpleOption$TooltipFactory;"))
     private SimpleOption.TooltipFactory<?> soundcategories$modifyTooltip(SimpleOption.TooltipFactory<?> original) {
         if (SoundCategories.TOOLTIPS.containsKey(this.currentCategory)) {
-            final var tooltip = Tooltip.of(SoundCategories.TOOLTIPS.get(this.currentCategory));
+            final Tooltip tooltip = Tooltip.of(SoundCategories.TOOLTIPS.get(this.currentCategory));
             return value -> tooltip;
         }
         return original;
