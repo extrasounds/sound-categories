@@ -2,7 +2,7 @@ package dev.stashy.soundcategories.mc1_21_9.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.runtime.RecordSoundEventInvoker;
+import dev.stashy.soundcategories.shared.runtime.RecordSoundEventProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
@@ -37,7 +37,7 @@ public abstract class SoundPreviewerMixin {
 
         Identifier[] ids = SoundCategories.PREVIEW_SOUNDS.getOrDefault(category, SE_EMPTIES);
         try {
-            RecordSoundEventInvoker invoker = Objects.requireNonNull(RecordSoundEventInvoker.INSTANCE);
+            RecordSoundEventProvider invoker = Objects.requireNonNull(RecordSoundEventProvider.INSTANCE);
             return (SoundEvent) invoker.invokeSoundEvent$of(ids[(int) (Math.random() * ids.length)]);
         } catch (Exception ex) {
             SoundCategories.LOGGER.error("can not invoke in record class 'SoundEvent'", ex);

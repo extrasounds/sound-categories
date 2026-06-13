@@ -2,7 +2,7 @@ package dev.stashy.soundcategories.mc1_21_11.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.runtime.RecordSoundEventInvoker;
+import dev.stashy.soundcategories.shared.runtime.RecordSoundEventProvider;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.sound.PositionedSoundInstance;
 import net.minecraft.client.sound.SoundInstance;
@@ -11,6 +11,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -24,6 +25,9 @@ import java.util.Objects;
 public abstract class SoundPreviewerMixin {
     @Unique
     private static final Identifier[] SE_EMPTIES = new Identifier[]{Identifier.ofVanilla("intentionally_empty")};
+    @Unique
+    @NotNull
+    private static final RecordSoundEventProvider SOUND_EVENT_PROVIDER = Objects.requireNonNull(RecordSoundEventProvider.INSTANCE);
 
     @Shadow
     @Nullable
@@ -37,8 +41,7 @@ public abstract class SoundPreviewerMixin {
 
         Identifier[] ids = SoundCategories.PREVIEW_SOUNDS.getOrDefault(category, SE_EMPTIES);
         try {
-            RecordSoundEventInvoker invoker = Objects.requireNonNull(RecordSoundEventInvoker.INSTANCE);
-            return (SoundEvent) invoker.invokeSoundEvent$of(ids[(int) (Math.random() * ids.length)]);
+            return (SoundEvent) SOUND_EVENT_PROVIDER.invokeSoundEvent$of(ids[(int) (Math.random() * ids.length)]);
         } catch (Exception ex) {
             SoundCategories.LOGGER.error("can not invoke in record class 'SoundEvent'", ex);
         }

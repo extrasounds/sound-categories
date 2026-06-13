@@ -5,14 +5,14 @@ import me.lonefelidae16.groominglib.api.McVersionInterchange;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class RecordSoundEventInvoker {
+public abstract class RecordSoundEventProvider {
     @Nullable
-    public static final RecordSoundEventInvoker INSTANCE;
+    public static final RecordSoundEventProvider INSTANCE;
 
     static {
-        RecordSoundEventInvoker instance = null;
+        RecordSoundEventProvider instance = null;
         try {
-            Class<RecordSoundEventInvoker> clazz = McVersionInterchange.getCompatibleClass(SoundCategories.BASE_PACKAGE, "runtime.RecordSoundEventImpl");
+            Class<RecordSoundEventProvider> clazz = McVersionInterchange.getCompatibleClass(SoundCategories.BASE_PACKAGE, "runtime.RecordSoundEventImpl");
             instance = clazz.getConstructor().newInstance();
         } catch (Exception ignore) {
         }
