@@ -3,6 +3,8 @@
 Fabric library that allows mods to add more sound categories, and modifies the Minecraft sound settings menu to fit as
 many categories as required.
 
+Originally created by the great Stashymane, which has sadly been discontinued.
+
 ## Adding to your project
 
 The build artifact is hosted on [my personal Maven server](https://artifactory.kow08absty.com/ui/repos/tree/General/fabricmc/dev/stashy/sound-categories). Add the following to your
@@ -87,4 +89,4 @@ your `fabric.mod.json`.
 
 The newly added category needs language definitions to show any name, apart from its key. You can do so in your `lang`
 folder. For an example, you can check the
-[ExtraSounds](https://github.com/stashymane/extra-sounds/) language files.
+[ExtraSounds](https://github.com/extrasounds/extra-sounds/) language files.
