@@ -10,7 +10,6 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
@@ -26,7 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-public interface VersionedElementListWrapper extends Drawable, Element, Selectable {
+public interface VersionedElementListWrapper extends Drawable, Element {
     String METHOD_KEY_INIT = VersionedElementListWrapper.class.getCanonicalName() + "#init";
 
     static VersionedElementListWrapper newInstance(MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
@@ -146,11 +145,6 @@ public interface VersionedElementListWrapper extends Drawable, Element, Selectab
         public DefaultedSoundEntry(Collection<ClickableWidget> widgets) {
             super();
             this.widgets = ImmutableList.copyOf(widgets);
-        }
-
-        @Override
-        public List<? extends Selectable> selectableChildren() {
-            return this.widgets;
         }
 
         @Override

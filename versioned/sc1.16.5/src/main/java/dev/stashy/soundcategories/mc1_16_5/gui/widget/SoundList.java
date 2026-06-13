@@ -1,45 +1,23 @@
-package dev.stashy.soundcategories.mc1_19.gui.widget;
+package dev.stashy.soundcategories.mc1_16_5.gui.widget;
 
 import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
-import me.lonefelidae16.groominglib.Util;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Selectable;
+import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.option.GameOptions;
-import net.minecraft.client.option.SimpleOption;
-import net.minecraft.screen.ScreenTexts;
+import net.minecraft.client.option.BooleanOption;
+import net.minecraft.client.option.DoubleOption;
+import net.minecraft.client.option.Option;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
-import java.util.EnumMap;
-import java.util.Objects;
 
-public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper, Selectable {
-    private static final EnumMap<SoundCategory, SimpleOption<Double>> VOLUME_OPTS = Util.make(new EnumMap<>(SoundCategory.class), map -> {
-        for (SoundCategory cat : SoundCategory.values()) {
-            final SimpleOption.TooltipFactoryGetter<Double> getter;
-            if (SoundCategories.TOOLTIPS.containsKey(cat)) {
-                getter = SimpleOption.constantTooltip(SoundCategories.TOOLTIPS.get(cat));
-            } else {
-                getter = SimpleOption.emptyTooltip();
-            }
-            final SimpleOption<Double> option = new SimpleOption<>(SoundCategories.getOptionsTranslationKey(cat), getter, (prefix, value) -> {
-                return value == 0.0 ? GameOptions.getGenericValueText(prefix, ScreenTexts.OFF) : GameOptions.getPercentValueText(prefix, value);
-            }, SimpleOption.DoubleSliderCallbacks.INSTANCE, (double) MinecraftClient.getInstance().options.getSoundVolume(cat), (value) -> {
-                MinecraftClient client = MinecraftClient.getInstance();
-                client.getSoundManager().updateSoundVolume(cat, value.floatValue());
-                client.options.setSoundVolume(cat, value.floatValue());
-            });
-            map.put(cat, option);
-        }
-    });
-
+public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper {
     public SoundList(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
         super(minecraftClient, i, j, k, l, m);
         this.centerListVertically = false;
@@ -109,15 +87,26 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Def
         this.addEntry(VersionedSoundEntry.newInstance(ImmutableMap.of(option, button)));
     }
 
-    private SimpleOption<?> createCustomizedOption(SoundCategory category) {
-        final SimpleOption<Double> option = Objects.requireNonNull(VOLUME_OPTS.get(category));
+    private Option createCustomizedOption(SoundCategory category) {
         if (SoundCategories.TOGGLEABLE_CATS.getOrDefault(category, false)) {
-            final Text tooltip = SoundCategories.TOOLTIPS.getOrDefault(category, Text.of(""));
-            return SimpleOption.ofBoolean(option.toString(),
-                    tooltip.equals(Text.empty()) ? SimpleOption.emptyTooltip() : SimpleOption.constantTooltip(tooltip),
-                    option.getValue() > 0, value -> option.setValue(value ? 1.0 : 0.0)
+            return new BooleanOption(SoundCategories.getOptionsTranslationKey(category),
+                    SoundCategories.TOOLTIPS.getOrDefault(category, Text.of("")), gameOptions -> {
+                        return gameOptions.getSoundVolume(category) > 0;
+                    },
+                    (gameOptions, v) -> gameOptions.setSoundVolume(category, v ? 1.0f : 0.0f)
             );
+        } else {
+            return new DoubleOption(SoundCategories.getOptionsTranslationKey(category), 0, 1, 0,
+                    gameOptions -> (double) gameOptions.getSoundVolume(category),
+                    (gameOptions, value) -> gameOptions.setSoundVolume(category, value.floatValue()),
+                    (gameOptions, doubleOption) -> {
+                        double value = doubleOption.get(gameOptions);
+                        if (value == 0.) {
+                            return doubleOption.getGenericLabel(ScreenTexts.OFF);
+                        } else {
+                            return doubleOption.getPercentLabel(value);
+                        }
+                    });
         }
-        return option;
     }
 }

@@ -7,7 +7,9 @@ import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsSc
 import dev.stashy.soundcategories.shared.gui.widget.VersionedButtonWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.GameOptionsScreen;
 import net.minecraft.client.gui.screen.option.SoundOptionsScreen;
@@ -36,7 +38,7 @@ public abstract class SoundSettingsMixin extends GameOptionsScreen {
     @Inject(method = "init", at = @At("HEAD"))
     private void soundcategories$registerScrollableWidget(CallbackInfo ci) {
         this.list = VersionedElementListWrapper.newInstance(this.client, this.width, this.height, 32, this.height - 32, 25);
-        this.addDrawableChild(Objects.requireNonNull(this.list));
+        this.addDrawableChild((Drawable & Element & Selectable) Objects.requireNonNull(this.list));
 
         this.list.addCategory(SoundCategory.MASTER);
         this.list.addAllCategory(SoundCategories.filterVanillaCategory());
@@ -49,7 +51,7 @@ public abstract class SoundSettingsMixin extends GameOptionsScreen {
         }
 
         this.addDrawableChild(
-                VersionedButtonWrapper.newInstance(
+                (Drawable & Element & Selectable) VersionedButtonWrapper.newInstance(
                         this.width / 2 - 100, this.height - 27, 200, 20,
                         VersionedText.INSTANCE.getDoneText(), (button) -> {
                             this.client.options.write();

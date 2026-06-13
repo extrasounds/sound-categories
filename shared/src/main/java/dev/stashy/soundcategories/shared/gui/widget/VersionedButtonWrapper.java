@@ -5,14 +5,13 @@ import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import me.lonefelidae16.groominglib.api.McVersionInterchange;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.Text;
 
 import java.lang.reflect.Method;
 import java.util.Objects;
 
-public interface VersionedButtonWrapper extends Element, Drawable, Selectable {
+public interface VersionedButtonWrapper extends Element, Drawable {
     String METHOD_KEY_INIT = VersionedButtonWrapper.class.getCanonicalName() + "#init";
 
     static VersionedButtonWrapper newInstance(int x, int y, int width, int height, Text message, ButtonWidget.PressAction callback) {

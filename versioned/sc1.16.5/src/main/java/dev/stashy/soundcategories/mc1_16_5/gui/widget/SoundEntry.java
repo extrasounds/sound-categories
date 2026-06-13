@@ -1,13 +1,11 @@
-package dev.stashy.soundcategories.mc1_18.gui.widget;
+package dev.stashy.soundcategories.mc1_16_5.gui.widget;
 
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.util.math.MatrixStack;
 
-import java.util.List;
 import java.util.Map;
 
 public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry {
@@ -38,10 +36,5 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
             widget.render(matrices, mouseX, mouseY, tickDelta);
             i += widget.getWidth() + 10;
         }
-    }
-
-    @Override
-    public List<? extends Selectable> selectableChildren() {
-        return this.widgets;
     }
 }

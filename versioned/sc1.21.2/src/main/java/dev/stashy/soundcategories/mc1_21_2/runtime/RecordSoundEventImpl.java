@@ -4,7 +4,6 @@ import dev.stashy.soundcategories.shared.runtime.RecordSoundEventInvoker;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class RecordSoundEventImpl extends RecordSoundEventInvoker {
@@ -12,7 +11,7 @@ public class RecordSoundEventImpl extends RecordSoundEventInvoker {
 
     @Override
     public Object invokeSoundEvent$of(Identifier id) throws Exception {
-        Method $of = SOUND_EVENT_CLASS.getMethod("of", Identifier.class);
+        Method $of = SOUND_EVENT_CLASS.getMethod("method_47908", Identifier.class);
         return $of.invoke(SOUND_EVENT_CLASS, id);
     }
 }

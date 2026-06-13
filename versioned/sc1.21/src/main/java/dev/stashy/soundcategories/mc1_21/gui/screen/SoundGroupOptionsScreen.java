@@ -2,6 +2,9 @@ package dev.stashy.soundcategories.mc1_21.gui.screen;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreen;
+import net.minecraft.client.gui.Drawable;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.option.GameOptions;
 import net.minecraft.sound.SoundCategory;
@@ -19,11 +22,12 @@ public class SoundGroupOptionsScreen extends VersionedSoundGroupOptionsScreen {
     protected void addOptions() {
         this.list.addReadOnlyCategory(this.parentCategory);
         this.list.addAllCategory(this.filterByParentCategory(this.parentCategory));
+        this.addDrawableChild((Drawable & Element & Selectable) this.list);
     }
 
     @Override
-    protected void refreshWidgetPositions() {
-        super.refreshWidgetPositions();
+    protected void initTabNavigation() {
+        super.initTabNavigation();
         this.list.setDimensionsImpl(this.width, this.layout.getContentHeight());
     }
 

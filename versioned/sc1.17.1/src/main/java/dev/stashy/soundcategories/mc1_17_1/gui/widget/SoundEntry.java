@@ -39,4 +39,9 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
             i += widget.getWidth() + 10;
         }
     }
+
+    @Override
+    public List<? extends Selectable> selectableChildren() {
+        return this.widgets;
+    }
 }

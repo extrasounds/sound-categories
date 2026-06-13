@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -17,7 +18,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
 
-public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper {
+public class SoundList extends ElementListWidget<VersionedElementListWrapper.DefaultedSoundEntry> implements VersionedElementListWrapper, Selectable {
     public SoundList(MinecraftClient minecraftClient, int i, int j, int k, int l, int m) {
         super(minecraftClient, i, j, k, l, m);
         this.centerListVertically = false;
