@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_16_4.gui.widget;
+package dev.stashy.soundcategories.mc1_16_3.gui.widget;
 
 import com.google.common.collect.ImmutableMap;
 import dev.stashy.soundcategories.shared.SoundCategories;
@@ -12,7 +12,6 @@ import net.minecraft.client.options.BooleanOption;
 import net.minecraft.client.options.DoubleOption;
 import net.minecraft.client.options.Option;
 import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Arrays;
@@ -90,9 +89,7 @@ public class SoundList extends ElementListWidget<VersionedElementListWrapper.Def
     private Option createCustomizedOption(SoundCategory category) {
         if (SoundCategories.TOGGLEABLE_CATS.getOrDefault(category, false)) {
             return new BooleanOption(SoundCategories.getOptionsTranslationKey(category),
-                    SoundCategories.TOOLTIPS.getOrDefault(category, Text.of("")), gameOptions -> {
-                        return gameOptions.getSoundVolume(category) > 0;
-                    },
+                    gameOptions -> gameOptions.getSoundVolume(category) > 0,
                     (gameOptions, v) -> gameOptions.setSoundVolume(category, v ? 1.0f : 0.0f)
             );
         } else {

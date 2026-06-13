@@ -10,7 +10,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.OptionListWidget;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 

@@ -21,9 +21,10 @@ dependencies {
 }
 
 tasks.withType(ProcessResources).configureEach {
-    project.ext['moduleId'] = 'mc1_16_4'
-    project.ext['moduleName'] = '1.16.4 module'
+    project.ext['moduleId'] = 'mc1_16_3'
+    project.ext['moduleName'] = '1.16.3 module'
     project.ext['mod_license'] = soundCategories.mod_license
+    project.ext['moduleMixins'] = [ 'soundcategories.mixins.mc1_16_3.json' ]
     project.ext['moduleAccessWidener'] = 'soundcategories.accesswidener'
 }
 

@@ -18,7 +18,10 @@ import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public interface VersionedElementListWrapper extends Drawable, Element {
     String METHOD_KEY_INIT = VersionedElementListWrapper.class.getCanonicalName() + "#init";
