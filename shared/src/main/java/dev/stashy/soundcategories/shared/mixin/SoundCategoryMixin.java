@@ -57,7 +57,7 @@ public abstract class SoundCategoryMixin {
             if (!SUPPRESSED_NAMES.contains(displayName)) {
                 SoundCategories.LOGGER.error(
                         "Duplicate enum name was found: '{}'.", displayName,
-                        new RuntimeException("%s is already registered".formatted(displayName))
+                        new RuntimeException(String.format("%s is already registered", displayName))
                 );
                 SUPPRESSED_NAMES.add(displayName);
             }
@@ -98,7 +98,7 @@ public abstract class SoundCategoryMixin {
 
                 final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
                 final String id = annotation.id().isEmpty() ? field.getName() : annotation.id();
-                final String varName = "%s$%s".formatted(modId, id).replaceAll(INVALID_VAR_NAME_REGEX, "_");
+                final String varName = String.format("%s$%s", modId, id).replaceAll(INVALID_VAR_NAME_REGEX, "_");
                 try {
                     soundcategories$tryMakeVariant(field, categoryLoader, varName);
                 } catch (Exception ex) {
@@ -108,7 +108,7 @@ public abstract class SoundCategoryMixin {
         });
 
         // Set the new enums.
-        field_15255 = EDITING_CATS.toArray(SoundCategory[]::new);
+        field_15255 = EDITING_CATS.toArray(new SoundCategory[0]);
 
         // Cleanup.
         EDITING_CATS.clear();

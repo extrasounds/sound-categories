@@ -3,6 +3,7 @@ plugins {
 }
 
 var soundCategories = project.parent.parent
+var targetJavaLang = Integer.parseInt(project.java_lang_version)
 
 version = "${soundCategories.mod_version}+${versionDetails().gitHash[0..7]}~lonefelidae16"
 
@@ -18,6 +19,10 @@ dependencies {
     implementation "me.lonefelidae16:groominglib:${rootProject.groom_version}"
 
     implementation project(path: soundCategories.project('shared').path, configuration: 'namedElements')
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.release.set(targetJavaLang)
 }
 
 tasks.withType(ProcessResources).configureEach {

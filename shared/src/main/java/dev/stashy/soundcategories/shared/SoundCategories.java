@@ -66,21 +66,21 @@ public final class SoundCategories {
     private static List<Field> getRegistrations(CategoryLoader loader) {
         return Arrays.stream(loader.getClass().getDeclaredFields()).filter(it -> {
             return it.isAnnotationPresent(CategoryLoader.Register.class);
-        }).toList();
+        }).collect(Collectors.toList());
     }
 
     private static String generateFieldClassName(Class<?> clazz, Field field) {
-        return "%s#%s".formatted(clazz.getCanonicalName(), field.getName());
+        return String.format("%s#%s", clazz.getCanonicalName(), field.getName());
     }
 
     public static void setup() {
-        var soundCategoryClass = SoundCategory.class;
+        Class<SoundCategory> soundCategoryClass = SoundCategory.class;
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
             SoundCategories.LOGGER.info("Loaded SoundCategory: {}", EnumSet.allOf(soundCategoryClass).stream().map(Enum::toString).collect(Collectors.joining(", ")));
         }
 
         try {
-            final var allAnnotations = getCategories();
+            final Map<EntrypointContainer<CategoryLoader>, List<Field>> allAnnotations = getCategories();
 
             // First fetch for the MASTER categories.
             for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
@@ -89,15 +89,19 @@ public final class SoundCategories {
 
                 for (Field field : allAnnotations.get(container)) {
                     final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                    if (!(field.get(categoryLoader) instanceof final SoundCategory category)) {
+                    final Object fieldInstance = field.get(categoryLoader);
+                    final SoundCategory category;
+                    if (!(fieldInstance instanceof SoundCategory)) {
                         final String fieldClassName = generateFieldClassName(categoryLoader.getClass(), field);
                         if (!SUPPRESSED_NAMES.contains(fieldClassName)) {
                             LOGGER.error(
                                     "Cast check failed for the member '{}'.", fieldClassName,
-                                    new ClassCastException("Can not cast %s to SoundCategory".formatted(field.get(categoryLoader).getClass().getCanonicalName())));
+                                    new ClassCastException(String.format("Can not cast %s to SoundCategory", fieldInstance.getClass().getCanonicalName())));
                             SUPPRESSED_NAMES.add(fieldClassName);
                         }
                         continue;
+                    } else {
+                        category = (SoundCategory) fieldInstance;
                     }
 
                     if (!annotation.master()) {
@@ -109,7 +113,7 @@ public final class SoundCategories {
                         if (!SUPPRESSED_NAMES.contains(className)) {
                             LOGGER.warn(
                                     "Unexpected annotation was found.",
-                                    new AnnotationFormatError("Class '%s' has a duplicate member with annotation value 'master'!".formatted(className)));
+                                    new AnnotationFormatError(String.format("Class '%s' has a duplicate member with annotation value 'master'!", className)));
                             SUPPRESSED_NAMES.add(className);
                         }
                         PARENTS.put(category, MASTERS.get(className));
@@ -118,7 +122,7 @@ public final class SoundCategories {
                 }
             }
 
-            MASTER_CLASSES.addAll(MASTERS.keySet().stream().sorted().toList());
+            MASTER_CLASSES.addAll(MASTERS.keySet().stream().sorted().collect(Collectors.toList()));
 
             // Put all the customized SoundCategories.
             for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
@@ -127,8 +131,12 @@ public final class SoundCategories {
 
                 for (Field field : allAnnotations.get(container)) {
                     final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                    if (!(field.get(categoryLoader) instanceof final SoundCategory category)) {
+                    final Object fieldInstance = field.get(categoryLoader);
+                    final SoundCategory category;
+                    if (!(fieldInstance instanceof SoundCategory)) {
                         continue;
+                    } else {
+                        category = (SoundCategory) fieldInstance;
                     }
 
                     if (!annotation.master()) {
