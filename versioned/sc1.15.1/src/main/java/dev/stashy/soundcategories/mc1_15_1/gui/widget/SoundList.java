@@ -1,7 +1,6 @@
-package dev.stashy.soundcategories.mc1_15_2.gui.widget;
+package dev.stashy.soundcategories.mc1_15_1.gui.widget;
 
 import com.google.common.collect.ImmutableMap;
-import dev.stashy.soundcategories.mc1_15_2.runtime.TextImpl;
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
 import dev.stashy.soundcategories.shared.runtime.VersionedText;

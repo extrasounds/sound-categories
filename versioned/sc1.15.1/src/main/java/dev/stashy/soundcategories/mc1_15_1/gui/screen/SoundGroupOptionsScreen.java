@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_15_2.gui.screen;
+package dev.stashy.soundcategories.mc1_15_1.gui.screen;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.screen.VersionedSoundGroupOptionsScreenWrapper;
@@ -9,7 +9,6 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.options.GameOptionsScreen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.options.GameOptions;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.TranslatableText;
 

@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_15_2.mixin;
+package dev.stashy.soundcategories.mc1_15_1.mixin;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -14,7 +14,6 @@ import net.minecraft.client.gui.widget.AbstractButtonWidget;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.options.GameOptions;
 import net.minecraft.client.options.Option;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

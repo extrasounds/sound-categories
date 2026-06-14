@@ -21,8 +21,8 @@ dependencies {
 }
 
 tasks.withType(ProcessResources).configureEach {
-    project.ext['moduleId'] = 'mc1_15_2'
-    project.ext['moduleName'] = '1.15.2 module'
+    project.ext['moduleId'] = 'mc1_15_1'
+    project.ext['moduleName'] = '1.15.1 module'
     project.ext['mod_license'] = soundCategories.mod_license
-    project.ext['moduleMixins'] = [ 'soundcategories.mixins.mc1_15_2.json' ]
+    project.ext['moduleMixins'] = [ 'soundcategories.mixins.mc1_15_1.json' ]
 }
