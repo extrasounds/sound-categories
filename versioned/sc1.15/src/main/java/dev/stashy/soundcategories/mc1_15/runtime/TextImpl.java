@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc1_15_1.runtime;
+package dev.stashy.soundcategories.mc1_15.runtime;
 
 import dev.stashy.soundcategories.shared.runtime.VersionedText;
 import net.minecraft.text.LiteralText;
