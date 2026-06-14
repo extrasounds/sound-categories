@@ -146,11 +146,6 @@ public interface VersionedElementListWrapper extends Drawable, Element {
         }
 
         @Override
-        public List<? extends Element> children() {
-            return this.widgets;
-        }
-
-        @Override
         public List<?> getWidgets() {
             return this.widgets;
         }

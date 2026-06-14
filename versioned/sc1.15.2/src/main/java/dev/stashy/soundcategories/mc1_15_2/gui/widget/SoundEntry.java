@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.AbstractButtonWidget;
 
+import java.util.List;
 import java.util.Map;
 
 public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry {
@@ -37,5 +38,10 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
             widget.render(mouseX, mouseY, tickDelta);
             i += widget.getWidth() + 10;
         }
+    }
+
+    @Override
+    public List<? extends Element> children() {
+        return this.widgets;
     }
 }

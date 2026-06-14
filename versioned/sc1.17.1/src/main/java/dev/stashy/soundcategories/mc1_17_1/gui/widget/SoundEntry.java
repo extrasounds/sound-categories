@@ -46,4 +46,9 @@ public class SoundEntry extends VersionedElementListWrapper.DefaultedSoundEntry 
     public List<? extends Selectable> selectableChildren() {
         return (List<? extends Selectable>) this.widgets;
     }
+
+    @Override
+    public List<? extends Element> children() {
+        return this.widgets;
+    }
 }
