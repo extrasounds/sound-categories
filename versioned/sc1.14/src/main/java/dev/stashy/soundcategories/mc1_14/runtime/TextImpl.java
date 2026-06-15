@@ -1,0 +1,33 @@
+package dev.stashy.soundcategories.mc1_14.runtime;
+
+import dev.stashy.soundcategories.shared.runtime.VersionedText;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+
+public class TextImpl extends VersionedText {
+    @Override
+    public Text empty() {
+        return new LiteralText("");
+    }
+
+    @Override
+    public Text getDoneText() {
+        return new TranslatableText("gui.done");
+    }
+
+    @Override
+    public Text getCancelText() {
+        return new TranslatableText("gui.cancel");
+    }
+
+    @Override
+    public Text translatable(String key, Object... args) {
+        return new TranslatableText(key, args);
+    }
+
+    @Override
+    public Text getOffText() {
+        return new TranslatableText("options.off");
+    }
+}

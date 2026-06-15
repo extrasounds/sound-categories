@@ -22,7 +22,6 @@
   "depends": {
     "fabricloader": "*",
     "minecraft": ">=${mod_support_lowest_mc}",
-    "fabric": "*",
     "soundcategories-shared": "*"
   }
 }
