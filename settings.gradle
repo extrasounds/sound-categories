@@ -16,3 +16,4 @@ pluginManagement {
 
 include 'shared'
 include 'versioned:sc26.1'
+include 'versioned:sc26.2'

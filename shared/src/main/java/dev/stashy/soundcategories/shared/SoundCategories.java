@@ -74,9 +74,9 @@ public final class SoundCategories {
     }
 
     public static void setup() {
-        var soundCategoryClass = SoundSource.class;
+        var soundCategoryEnums = EnumSet.allOf(SoundSource.class);
         if (FabricLoader.getInstance().isDevelopmentEnvironment()) {
-            SoundCategories.LOGGER.info("Loaded SoundCategory: {}", EnumSet.allOf(soundCategoryClass).stream().map(Enum::toString).collect(Collectors.joining(", ")));
+            SoundCategories.LOGGER.info("Loaded SoundCategory: {}", soundCategoryEnums.stream().map(Enum::toString).collect(Collectors.joining(", ")));
         }
 
         try {

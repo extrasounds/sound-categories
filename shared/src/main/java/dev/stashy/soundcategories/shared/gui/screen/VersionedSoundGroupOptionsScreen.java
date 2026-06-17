@@ -1,9 +1,7 @@
 package dev.stashy.soundcategories.shared.gui.screen;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
-import dev.stashy.soundcategories.shared.gui.widget.VersionedButtonWrapper;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
-import dev.stashy.soundcategories.shared.text.VersionedText;
 import me.lonefelidae16.groominglib.api.McVersionInterchange;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.screens.Screen;
@@ -43,40 +41,6 @@ public abstract class VersionedSoundGroupOptionsScreen extends OptionsSubScreen 
             SoundCategories.LOGGER.error("Cannot instantiate 'SoundGroupOptionsScreen'", ex);
         }
         return null;
-    }
-
-    protected void addDoneButton() {
-        addDoneButton(false);
-    }
-
-    protected void addDoneButton(boolean withCancel) {
-        if (withCancel) {
-            this.addRenderableWidget(
-                    VersionedButtonWrapper.newInstance(
-                            this.width / 2 - 155, this.height - 27, 150, 20,
-                            VersionedText.INSTANCE.getDoneText(), (button) -> {
-                                this.minecraft.options.save();
-                                this.minecraft.setScreen(this.lastScreen);
-                            }
-                    )
-            );
-            this.addRenderableWidget(
-                    VersionedButtonWrapper.newInstance(
-                            this.width / 2 - 155 + 160, this.height - 27, 150, 20,
-                            VersionedText.INSTANCE.getCancelText(), (button) -> this.minecraft.setScreen(this.lastScreen)
-                    )
-            );
-        } else {
-            this.addRenderableWidget(
-                    VersionedButtonWrapper.newInstance(
-                            this.width / 2 - 100, this.height - 27, 200, 20,
-                            VersionedText.INSTANCE.getDoneText(), (button) -> {
-                                this.minecraft.options.save();
-                                this.minecraft.setScreen(this.lastScreen);
-                            }
-                    )
-            );
-        }
     }
 
     @Override

@@ -1,11 +1,9 @@
-package dev.stashy.soundcategories.mc26_1.option;
+package dev.stashy.soundcategories.mc26_2.option;
 
 import dev.stashy.soundcategories.shared.option.VersionedOptionLikeProvider;
 import net.minecraft.client.OptionInstance;
 import net.minecraft.client.Options;
 import net.minecraft.client.gui.components.AbstractWidget;
-
-import java.util.function.Consumer;
 
 public class OptionLikeImpl extends VersionedOptionLikeProvider {
     @Override
@@ -15,9 +13,9 @@ public class OptionLikeImpl extends VersionedOptionLikeProvider {
 
     @Override
     public Object ofBoolean(String key) {
-        return OptionInstance.createBoolean(key, true, new Consumer<>() {
+        return OptionInstance.createBoolean(key, true, new OptionInstance.ValueUpdateListener<>() {
             @Override
-            public void accept(Boolean aBoolean) {
+            public void valueChanged(Boolean newValue) {
 
             }
         });

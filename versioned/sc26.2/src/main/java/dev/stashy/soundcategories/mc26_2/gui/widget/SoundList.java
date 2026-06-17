@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc26_1.gui.widget;
+package dev.stashy.soundcategories.mc26_2.gui.widget;
 
 import dev.stashy.soundcategories.shared.SoundCategories;
 import dev.stashy.soundcategories.shared.gui.widget.VersionedElementListWrapper;
@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 public class SoundList extends ContainerObjectSelectionList<OptionsList.AbstractEntry> implements VersionedElementListWrapper {
     public SoundList(Minecraft minecraftClient, int i, int j, int k, int l) {
@@ -56,10 +55,10 @@ public class SoundList extends ContainerObjectSelectionList<OptionsList.Abstract
                         }
                     },
                     option.get() > 0,
-                    new Consumer<>() {
+                    new OptionInstance.ValueUpdateListener<>() {
                         @Override
-                        public void accept(Boolean value) {
-                            option.set(value ? 1.0 : 0.0);
+                        public void valueChanged(Boolean newValue) {
+                            option.set(newValue ? 1.0 : 0.0);
                         }
                     }
             );

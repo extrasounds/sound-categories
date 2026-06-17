@@ -1,4 +1,4 @@
-package dev.stashy.soundcategories.mc26_1.mixin;
+package dev.stashy.soundcategories.shared.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import dev.stashy.soundcategories.shared.SoundCategories;
