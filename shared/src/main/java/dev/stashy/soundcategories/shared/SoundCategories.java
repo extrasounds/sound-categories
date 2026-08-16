@@ -79,95 +79,101 @@ public final class SoundCategories {
             SoundCategories.LOGGER.info("Loaded SoundCategory: {}", soundCategoryEnums.stream().map(Enum::toString).collect(Collectors.joining(", ")));
         }
 
-        try {
-            final var allAnnotations = getCategories();
+        final var allAnnotations = getCategories();
 
-            // First fetch for the MASTER categories.
-            for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
-                final CategoryLoader categoryLoader = container.getEntrypoint();
-                final String className = categoryLoader.getClass().getCanonicalName();
+        // First fetch for the MASTER categories.
+        for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
+            final CategoryLoader categoryLoader = container.getEntrypoint();
+            final String className = categoryLoader.getClass().getCanonicalName();
 
-                for (Field field : allAnnotations.get(container)) {
-                    final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                    if (!(field.get(categoryLoader) instanceof final SoundSource category)) {
+            for (Field field : allAnnotations.get(container)) {
+                final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
+                SoundSource category = null;
+                try {
+                    Object instance = field.get(categoryLoader);
+                    if (!(instance instanceof SoundSource)) {
                         final String fieldClassName = generateFieldClassName(categoryLoader.getClass(), field);
-                        if (!SUPPRESSED_NAMES.contains(fieldClassName)) {
+                        if (SUPPRESSED_NAMES.add(fieldClassName)) {
                             LOGGER.error(
                                     "Cast check failed for the member '{}'.", fieldClassName,
                                     new ClassCastException("Can not cast %s to SoundSource".formatted(field.get(categoryLoader).getClass().getCanonicalName())));
-                            SUPPRESSED_NAMES.add(fieldClassName);
                         }
                         continue;
                     }
+                    category = (SoundSource) instance;
+                } catch (Exception ex) {
+                    SoundCategories.LOGGER.error("Failed to access field.", ex);
+                }
 
-                    if (!annotation.master()) {
+                if (!annotation.master()) {
+                    continue;
+                }
+
+                if (MASTERS.containsKey(className)) {
+                    // The MASTER already registered.
+                    if (SUPPRESSED_NAMES.add(className)) {
+                        LOGGER.warn(
+                                "Unexpected annotation was found.",
+                                new AnnotationFormatError("Class '%s' has a duplicate member with annotation value 'master'!".formatted(className)));
+                    }
+                    PARENTS.put(category, MASTERS.get(className));
+                }
+                MASTERS.putIfAbsent(className, category);
+            }
+        }
+
+        MASTER_CLASSES.addAll(MASTERS.keySet().stream().sorted().toList());
+
+        // Put all the customized SoundCategories.
+        for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
+            final CategoryLoader categoryLoader = container.getEntrypoint();
+            final String className = categoryLoader.getClass().getCanonicalName();
+
+            for (Field field : allAnnotations.get(container)) {
+                final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
+                SoundSource category = null;
+                try {
+                    Object instance = field.get(categoryLoader);
+                    if (!(instance instanceof SoundSource)) {
                         continue;
                     }
+                    category = (SoundSource) instance;
+                } catch (Exception ignore) {
+                }
 
+                if (!annotation.master()) {
                     if (MASTERS.containsKey(className)) {
-                        // The MASTER already registered.
-                        if (!SUPPRESSED_NAMES.contains(className)) {
-                            LOGGER.warn(
-                                    "Unexpected annotation was found.",
-                                    new AnnotationFormatError("Class '%s' has a duplicate member with annotation value 'master'!".formatted(className)));
-                            SUPPRESSED_NAMES.add(className);
-                        }
                         PARENTS.put(category, MASTERS.get(className));
-                    }
-                    MASTERS.putIfAbsent(className, category);
-                }
-            }
-
-            MASTER_CLASSES.addAll(MASTERS.keySet().stream().sorted().toList());
-
-            // Put all the customized SoundCategories.
-            for (EntrypointContainer<CategoryLoader> container : allAnnotations.keySet()) {
-                final CategoryLoader categoryLoader = container.getEntrypoint();
-                final String className = categoryLoader.getClass().getCanonicalName();
-
-                for (Field field : allAnnotations.get(container)) {
-                    final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                    if (!(field.get(categoryLoader) instanceof final SoundSource category)) {
-                        continue;
-                    }
-
-                    if (!annotation.master()) {
-                        if (MASTERS.containsKey(className)) {
-                            PARENTS.put(category, MASTERS.get(className));
-                        } else {
-                            // The 'orphan' category was found, will be grouped together with Vanilla volume options.
-                            // This is deprecated as it causes confusion for users.
-                            if (!SUPPRESSED_NAMES.contains(className)) {
-                                LOGGER.warn("Missing annotation value 'master' in class '{}'. This is deprecated.", className);
-                                LOGGER.warn("To avoid this message, please specify \"master = true\" in one of the @Register annotation in your class.");
-                                SUPPRESSED_NAMES.add(className);
-                            }
-                        }
-                    }
-
-                    if (annotation.defaultLevel() != 1f) {
-                        DEFAULT_LEVELS.put(category, annotation.defaultLevel());
-                    }
-
-                    if (annotation.toggle()) {
-                        TOGGLEABLE_CATS.put(category, true);
-                    }
-
-                    if (!annotation.tooltip().isEmpty()) {
-                        TOOLTIPS.put(category, VersionedText.INSTANCE.translatable(annotation.tooltip()));
-                    }
-
-                    if (annotation.preview().length > 0) {
-                        try {
-                            PREVIEW_SOUNDS.put(category, Objects.requireNonNull(Arrays.stream(annotation.preview()).map(Identifier::parse).toArray(Identifier[]::new)));
-                        } catch (Exception ex) {
-                            LOGGER.error("Parsing Identifier of preview sound failed: {}", String.join(", ", annotation.preview()), ex);
+                    } else {
+                        // The 'orphan' category was found, will be grouped together with Vanilla volume options.
+                        // This is deprecated as it causes confusion for users.
+                        if (SUPPRESSED_NAMES.add(className)) {
+                            LOGGER.warn("Missing annotation value 'master' in class '{}'. This is deprecated.", className);
+                            LOGGER.warn("To avoid this message, please specify \"master = true\" in one of the @Register annotation in your class.");
                         }
                     }
                 }
+
+                if (annotation.defaultLevel() != 1f) {
+                    DEFAULT_LEVELS.put(category, annotation.defaultLevel());
+                }
+
+                if (annotation.toggle()) {
+                    TOGGLEABLE_CATS.put(category, true);
+                }
+
+                if (!annotation.tooltip().isEmpty()) {
+                    TOOLTIPS.put(category, VersionedText.INSTANCE.translatable(annotation.tooltip()));
+                }
+
+                if (annotation.preview().length > 0) {
+                    try {
+                        PREVIEW_SOUNDS.put(category, Objects.requireNonNull(Arrays.stream(annotation.preview()).map(Identifier::parse).toArray(Identifier[]::new)));
+                    } catch (Exception ex) {
+                        LOGGER.error("Parsing Identifier of preview sound failed: {}", String.join(", ", annotation.preview()), ex);
+                    }
+                }
             }
-        } catch (Exception ex) {
-            LOGGER.error("Unexpected error has caught", ex);
         }
 
         // Cleanup.
