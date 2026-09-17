@@ -88,7 +88,7 @@ public final class SoundCategories {
 
             for (Field field : allAnnotations.get(container)) {
                 final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                SoundSource category = null;
+                final SoundSource category;
                 try {
                     Object instance = field.get(categoryLoader);
                     if (!(instance instanceof SoundSource)) {
@@ -103,6 +103,7 @@ public final class SoundCategories {
                     category = (SoundSource) instance;
                 } catch (Exception ex) {
                     SoundCategories.LOGGER.error("Failed to access field.", ex);
+                    continue;
                 }
 
                 if (!annotation.master()) {
@@ -131,7 +132,7 @@ public final class SoundCategories {
 
             for (Field field : allAnnotations.get(container)) {
                 final CategoryLoader.Register annotation = field.getAnnotation(CategoryLoader.Register.class);
-                SoundSource category = null;
+                final SoundSource category;
                 try {
                     Object instance = field.get(categoryLoader);
                     if (!(instance instanceof SoundSource)) {
@@ -139,6 +140,7 @@ public final class SoundCategories {
                     }
                     category = (SoundSource) instance;
                 } catch (Exception ignore) {
+                    continue;
                 }
 
                 if (!annotation.master()) {
