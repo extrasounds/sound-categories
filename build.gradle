@@ -100,13 +100,15 @@ var sourcesPaths = '**/*-sources.jar'
 dependencies {
     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${rootProject.loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+
+    runtimeOnly "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
     implementation include("me.lonefelidae16:groominglib:${rootProject.groom_version}")
 
     compileOnlyApi include(project(path: 'shared'))
     compileOnly include(project(path: 'versioned:sc26.1'))
     compileOnly include(project(path: 'versioned:sc26.2'))
+    compileOnly include(project(path: 'versioned:sc26.4'))
 
     // DevLaunch
     runtimeOnly fileTree(dir: 'shared', exclude: [sourcesPaths], include: [devLibsPaths, libsPaths])
