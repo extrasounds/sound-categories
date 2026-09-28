@@ -53,12 +53,11 @@ public abstract class SoundSourceMixin {
 
         // Check duplicated name.
         if (REGISTERED_VARIANTS.containsKey(displayName)) {
-            if (!SUPPRESSED_NAMES.contains(displayName)) {
+            if (SUPPRESSED_NAMES.add(displayName)) {
                 SoundCategories.LOGGER.error(
                         "Duplicate enum name was found: '{}'.", displayName,
                         new RuntimeException("%s is already registered".formatted(displayName))
                 );
-                SUPPRESSED_NAMES.add(displayName);
             }
             newCategory = REGISTERED_VARIANTS.get(displayName);
         } else {
