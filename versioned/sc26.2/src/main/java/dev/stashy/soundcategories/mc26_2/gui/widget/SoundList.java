@@ -55,6 +55,7 @@ public class SoundList extends ContainerObjectSelectionList<OptionsList.Abstract
                         }
                     },
                     option.get() > 0,
+                    // Replaceable with a lambda, but class signature has been changed. Keep this line to indicate that cannot be merged into 26.1.
                     new OptionInstance.ValueUpdateListener<>() {
                         @Override
                         public void valueChanged(Boolean newValue) {
